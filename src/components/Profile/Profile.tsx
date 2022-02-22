@@ -4,7 +4,7 @@ import MyPosts from "./MyPosts/MyPosts";
 
 const Profile = () => {
     return (
-        <div className={s.content}>
+        <div>
             <div>
                 <img src="https://storge.pic2.me/c/1360x800/323/582b0f346f341.jpg"
                      alt="background"/>
