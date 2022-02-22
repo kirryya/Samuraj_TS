@@ -13,17 +13,22 @@
 .header {
     grid-area: h;
     background-color: lightpink;
+    border-radius: 15px;
+
 }
 .header img {
-    width: 20px;
+    width: 60px;
+    border-radius: 60px;
 }
 
 .nav {
     grid-area: n;
     background-color: cadetblue;
+    border-radius: 15px;
 }
 
 .content {
     grid-area: c;
     background-color: cornflowerblue;
+    border-radius: 15px;
 }
