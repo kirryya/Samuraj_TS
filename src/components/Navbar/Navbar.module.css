@@ -8,8 +8,10 @@
 
 .item {
     color: white;
+    text-decoration: none;
 }
 
 .active {
     color: blueviolet;
+    text-decoration: none;
 }
