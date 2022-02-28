@@ -14,10 +14,10 @@ const App = () => {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route path={"/music"} element={<Dialogs />}/>
+                        <Route path={"/dialog"} element={<Dialogs />}/>
                         <Route path={"/profile"} element={<Profile />}/>
                         <Route path={"/new"} element={<Dialogs />}/>
-                        <Route path={"/dialog"} element={<Dialogs />}/>
+                        <Route path={"/music"} element={<Dialogs />}/>
                         <Route path={"/settings"} element={<Dialogs />}/>
                     </Routes>
                 </div>
