@@ -4,12 +4,12 @@
 
 }
 
-.dialogsItems  {
+.dialogsItems {
     padding: 10px;
 
 }
 
-.dialogsItems .active {
+.active {
     color: blueviolet;
 }
 
