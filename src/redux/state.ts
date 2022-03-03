@@ -43,7 +43,7 @@ let state: StateType = {
             {id: 3, name: "Sveta"},
             {id: 4, name: "Sasha"},
             {id: 5, name: "Masha"},
-            {id: 5, name: "Valera"}
+            {id: 6, name: "Valera"}
         ],
         messages: [
             {id: 1, message: "Hi"},
@@ -53,6 +53,16 @@ let state: StateType = {
             {id: 5, message: "Yo"}
         ]
     }
+}
+
+ export const addPost = (postMessage: string) => {
+    debugger
+     const newPost: PostType = {
+        id: 7,
+        message: postMessage,
+        likeCount: 0
+    };
+    state.profilePage.posts.push(newPost)
 }
 
 export default state;

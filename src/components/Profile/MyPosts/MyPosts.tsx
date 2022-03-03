@@ -4,6 +4,7 @@ import Post from "./Post/Post";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
+    addPost: (postMessage: string) => void
 }
 
 export type PostsType = {
@@ -19,20 +20,22 @@ const MyPosts = (props: MyPostsPropsType) => {
 
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => {
-        let text = newPostElement.current?.value
-        alert(text)
+    const addPostCallback = () => {
+        debugger
+        if (newPostElement.current)
+        props.addPost(newPostElement.current.value)
     }
+
 
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement}> </textarea>
+                    <textarea ref={newPostElement}></textarea>
                 </div>
                 <div>
-                    <button onClick={addPost}>Add post</button>
+                    <button onClick={addPostCallback}>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
