@@ -4,14 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
-import {addPost, StateType} from "./redux/state";
+import {addPost, StateType, updateNewPostText} from "./redux/state";
 
 
 export let rerenderEntireTree = (state: StateType) => {
     ReactDOM.render(
         <React.StrictMode>
             <BrowserRouter>
-                <App appState={state} addPost={addPost}/>
+                <App appState={state} addPost={addPost} updateNewPostText={updateNewPostText} />
             </BrowserRouter>
         </React.StrictMode>,
         document.getElementById('root')

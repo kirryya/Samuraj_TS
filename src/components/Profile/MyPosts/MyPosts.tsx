@@ -4,7 +4,9 @@ import Post from "./Post/Post";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
-    addPost: (postMessage: string) => void
+    addPost: () => void
+    newPostText: string
+    updateNewPostText: (newText: string) => void
 }
 
 export type PostsType = {
@@ -22,9 +24,13 @@ const MyPosts = (props: MyPostsPropsType) => {
 
     const addPostCallback = () => {
         if (newPostElement.current) {
-        props.addPost(newPostElement.current.value)
-        newPostElement.current.value = " "
+            props.addPost()
         }
+    }
+
+    const onChangeInputHandler = () => {
+        if (newPostElement.current)
+            props.updateNewPostText(newPostElement.current.value)
     }
 
 
@@ -33,7 +39,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea>
+                    <textarea ref={newPostElement} onChange={onChangeInputHandler} value={props.newPostText}/>
                 </div>
                 <div>
                     <button onClick={addPostCallback}>Add post</button>
