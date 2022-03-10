@@ -21,9 +21,10 @@ const MyPosts = (props: MyPostsPropsType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPostCallback = () => {
-        debugger
-        if (newPostElement.current)
+        if (newPostElement.current) {
         props.addPost(newPostElement.current.value)
+        newPostElement.current.value = " "
+        }
     }
 
 
