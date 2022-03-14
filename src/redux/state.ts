@@ -1,4 +1,4 @@
-let rerenderEntireTree = () => {
+let onChange = () => {
     console.log("State changed")
 }
 
@@ -69,16 +69,16 @@ export const addPost = () => {
     };
     state.profilePage.posts.push(newPost);
     state.profilePage.newPostText = ''
-    rerenderEntireTree(state)
+    onChange()
 }
 
 export const updateNewPostText = (newText: string) => {
     state.profilePage.newPostText = newText;
-    rerenderEntireTree(state)
+    onChange()
 }
 
-export const subscribe = (observer:) => {
-    rerenderEntireTree = observer // паттерн observer
+export const subscribe = (observer: ()=>void ) => {
+    onChange = observer // паттерн observer
 }
 
 export default state;

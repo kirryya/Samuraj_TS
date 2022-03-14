@@ -6,7 +6,7 @@ import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 
 
-let rerenderEntireTree = (state: StateType) => {
+let rerenderEntireTree = () => {
     ReactDOM.render(
         <React.StrictMode>
             <BrowserRouter>
@@ -17,7 +17,7 @@ let rerenderEntireTree = (state: StateType) => {
     );
 }
 
-rerenderEntireTree(state);
+rerenderEntireTree();
 
 subscribe(rerenderEntireTree)
 
