@@ -33,7 +33,6 @@ const MyPosts = (props: MyPostsPropsType) => {
             props.updateNewPostText(newPostElement.current.value)
     }
 
-
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
