@@ -1,7 +1,3 @@
-let onChange = () => {
-    console.log("State changed")
-}
-
 type MessageType = {
     id: number
     message: string
@@ -34,51 +30,66 @@ export type StateType = {
 }
 
 
-let state: StateType = {
-    profilePage: {
-        posts: [
-            {id: 1, message: "Hi, how are you?", likeCount: 15},
-            {id: 2, message: "It is my first post", likeCount: 30}
-        ],
-        newPostText: ''
+export type StoreType = {
+    _state: StateType
+    getState: () => StateType
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
+    subscribe: (observer: () => void) => void
+    onChange: () => void
+}
+
+let store: StoreType = {
+    _state: {
+        profilePage: {
+            posts: [
+                {id: 1, message: "Hi, how are you?", likeCount: 15},
+                {id: 2, message: "It is my first post", likeCount: 30}
+            ],
+            newPostText: ''
+        },
+        messagesPage: {
+            dialogs: [
+                {id: 1, name: "Dimych"},
+                {id: 2, name: "Andrei"},
+                {id: 3, name: "Sveta"},
+                {id: 4, name: "Sasha"},
+                {id: 5, name: "Masha"},
+                {id: 6, name: "Valera"}
+            ],
+            messages: [
+                {id: 1, message: "Hi"},
+                {id: 2, message: "How are you?"},
+                {id: 3, message: "Yo"},
+                {id: 4, message: "Yo"},
+                {id: 5, message: "Yo"}
+            ]
+        }
     },
-    messagesPage: {
-        dialogs: [
-            {id: 1, name: "Dimych"},
-            {id: 2, name: "Andrei"},
-            {id: 3, name: "Sveta"},
-            {id: 4, name: "Sasha"},
-            {id: 5, name: "Masha"},
-            {id: 6, name: "Valera"}
-        ],
-        messages: [
-            {id: 1, message: "Hi"},
-            {id: 2, message: "How are you?"},
-            {id: 3, message: "Yo"},
-            {id: 4, message: "Yo"},
-            {id: 5, message: "Yo"}
-        ]
+    getState() {
+        return this._state
+    },
+    addPost() {
+        const newPost = {
+            id: 7,
+            message: this._state.profilePage.newPostText,
+            likeCount: 0
+        };
+        this._state.profilePage.posts.push(newPost);
+        this._state.profilePage.newPostText = ''
+        this.onChange()
+    },
+    updateNewPostText(newText: string) {
+        this._state.profilePage.newPostText = newText;
+        this.onChange()
+    },
+    subscribe(observer) {
+        this.onChange = observer // паттерн observer
+    },
+    onChange() {
+        console.log("State changed")
     }
 }
 
-export const addPost = () => {
-    const newPost: PostType = {
-        id: 7,
-        message: state.profilePage.newPostText,
-        likeCount: 0
-    };
-    state.profilePage.posts.push(newPost);
-    state.profilePage.newPostText = ''
-    onChange()
-}
 
-export const updateNewPostText = (newText: string) => {
-    state.profilePage.newPostText = newText;
-    onChange()
-}
-
-export const subscribe = (observer: ()=>void ) => {
-    onChange = observer // паттерн observer
-}
-
-export default state;
+export default store;
