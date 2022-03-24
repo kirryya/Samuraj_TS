@@ -15,24 +15,26 @@ type AppPropsType = {
 }
 
 const App = (props: AppPropsType) => {
+    const state = props.appState.getState()
+
     return (
         <div className="app-wrapper">
             <Header/>
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path="/profile" element={<Profile posts={props.appState._state.profilePage.posts}
+                    <Route path="/profile" element={<Profile posts={state.profilePage.posts}
                                                              addPost={props.addPost}
-                                                             newPostText={props.appState._state.profilePage.newPostText}
+                                                             newPostText={state.profilePage.newPostText}
                                                              updateNewPostText={props.updateNewPostText}/>}/>
-                    <Route path="/dialogs/*" element={<Dialogs dialogs={props.appState._state.messagesPage.dialogs}
-                                                               messages={props.appState._state.messagesPage.messages}/>}/>
-                    <Route path="/news" element={<Dialogs dialogs={props.appState._state.messagesPage.dialogs}
-                                                          messages={props.appState._state.messagesPage.messages}/>}/>
-                    <Route path="/music" element={<Dialogs dialogs={props.appState._state.messagesPage.dialogs}
-                                                           messages={props.appState._state.messagesPage.messages}/>}/>
-                    <Route path="/settings" element={<Dialogs dialogs={props.appState._state.messagesPage.dialogs}
-                                                              messages={props.appState._state.messagesPage.messages}/>}/>
+                    <Route path="/dialogs/*" element={<Dialogs dialogs={state.messagesPage.dialogs}
+                                                               messages={state.messagesPage.messages}/>}/>
+                    <Route path="/news" element={<Dialogs dialogs={state.messagesPage.dialogs}
+                                                          messages={state.messagesPage.messages}/>}/>
+                    <Route path="/music" element={<Dialogs dialogs={state.messagesPage.dialogs}
+                                                           messages={state.messagesPage.messages}/>}/>
+                    <Route path="/settings" element={<Dialogs dialogs={state.messagesPage.dialogs}
+                                                              messages={state.messagesPage.messages}/>}/>
                 </Routes>
             </div>
         </div>
