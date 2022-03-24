@@ -5,13 +5,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {Route, Routes} from "react-router-dom";
-import {StoreType} from "./redux/state";
+import {AddPostAT, StoreType, UpdateNewPostTextAT} from "./redux/state";
 
 
 type AppPropsType = {
     appState: StoreType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
 }
 
 const App = (props: AppPropsType) => {
@@ -24,9 +23,8 @@ const App = (props: AppPropsType) => {
             <div className="app-wrapper-content">
                 <Routes>
                     <Route path="/profile" element={<Profile posts={state.profilePage.posts}
-                                                             addPost={props.addPost}
-                                                             newPostText={state.profilePage.newPostText}
-                                                             updateNewPostText={props.updateNewPostText}/>}/>
+                                                             dispatch={props.dispatch}
+                                                             newPostText={state.profilePage.newPostText}/>}/>
                     <Route path="/dialogs/*" element={<Dialogs dialogs={state.messagesPage.dialogs}
                                                                messages={state.messagesPage.messages}/>}/>
                     <Route path="/news" element={<Dialogs dialogs={state.messagesPage.dialogs}

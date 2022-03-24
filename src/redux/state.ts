@@ -37,8 +37,19 @@ export type StoreType = {
     subscribe: (observer: () => void) => void
     addPost: () => void
     updateNewPostText: (newText: string) => void
-    /*dispatch: (action: any) => void*/
+    dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
 }
+
+export type AddPostAT = {
+    type: 'ADD-POST'
+    newPostText: string
+}
+
+export type UpdateNewPostTextAT = {
+    type: 'UPD-NEW-POST-TEXT'
+    newText: string
+}
+
 
 let store: StoreType = {
     _state: {
@@ -90,29 +101,26 @@ let store: StoreType = {
         this._state.profilePage.newPostText = newText;
         this._onChange()
     },
-    /*dispatch(action) {
+    dispatch: function (action) {
         switch (action.type) {
             case 'ADD-POST':
-                return {
-                    const newPost = {
-                        id: 7,
-                        message: action.newPostText,
-                        likeCount: 0
-                    };
-                    this._state.profilePage.posts.push(newPost);
-                    this._state.profilePage.newPostText = ''
-                    this._onChange()
-                }
+                const newPost = {
+                    id: 7,
+                    message: action.newPostText,
+                    likeCount: 0
+                };
+                this._state.profilePage.posts.push(newPost);
+                this._state.profilePage.newPostText = ''
+                this._onChange()
+                break
             case 'UPD-NEW-POST-TEXT' :
-                return {
-                    this._state.profilePage.newPostText = action.newText;
-                    this._onChange()
-                }
-
+                this._state.profilePage.newPostText = action.newText;
+                this._onChange()
+                break
             default:
                 return store
         }
-    }*/
+    }
 }
 
 

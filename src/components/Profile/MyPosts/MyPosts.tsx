@@ -1,12 +1,12 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
+import {AddPostAT, UpdateNewPostTextAT} from "../../../redux/state";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
-    addPost: () => void
     newPostText: string
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
 }
 
 export type PostsType = {
@@ -24,13 +24,13 @@ const MyPosts = (props: MyPostsPropsType) => {
 
     const addPostCallback = () => {
         if (newPostElement.current) {
-            props.addPost()
+            props.dispatch({type: 'ADD-POST', newPostText: props.newPostText})
         }
     }
 
     const onChangeInputHandler = () => {
         if (newPostElement.current)
-            props.updateNewPostText(newPostElement.current.value)
+            props.dispatch({type: 'UPD-NEW-POST-TEXT', newText: newPostElement.current.value})
     }
 
     return (
@@ -38,7 +38,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement} onChange={onChangeInputHandler} value={props.newPostText}/>
+                    <textarea ref={newPostElement} onChange={onChangeInputHandler}/>
                 </div>
                 <div>
                     <button onClick={addPostCallback}>Add post</button>
