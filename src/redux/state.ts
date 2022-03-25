@@ -22,6 +22,7 @@ type ProfilePageType = {
 type MessagesPageType = {
     messages: Array<MessageType>
     dialogs: Array<DialogType>
+    newMessageText: string
 }
 
 export type StateType = {
@@ -35,7 +36,7 @@ export type StoreType = {
     _onChange: () => void
     getState: () => StateType
     subscribe: (observer: () => void) => void
-    dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
+    dispatch: (action: AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT) => void
 }
 
 export type AddPostAT = {
@@ -46,6 +47,14 @@ export type AddPostAT = {
 export type UpdateNewPostTextAT = {
     type: 'UPD-NEW-POST-TEXT'
     newText: string
+}
+export type AddMessageAT = {
+    type: 'ADD-MESSAGE'
+    newMessageText: string
+}
+export type UpdateNewMessageTextAT = {
+    type: 'UPD-NEW-MESSAGE-TEXT'
+    newMessage: string
 }
 
 
@@ -73,7 +82,8 @@ let store: StoreType = {
                 {id: 3, message: "Yo"},
                 {id: 4, message: "Yo"},
                 {id: 5, message: "Yo"}
-            ]
+            ],
+            newMessageText: ''
         }
     },
     _onChange() {
@@ -101,6 +111,19 @@ let store: StoreType = {
                 this._state.profilePage.newPostText = action.newText;
                 this._onChange()
                 break
+            case 'ADD-MESSAGE':
+                const newMessage = {
+                    id: 7,
+                    message: action.newMessageText
+                };
+                this._state.messagesPage.messages.push(newMessage);
+                this._state.messagesPage.newMessageText = ''
+                this._onChange()
+                break
+            case 'UPD-NEW-MESSAGE-TEXT' :
+                this._state.messagesPage.newMessageText = action.newMessage;
+                this._onChange()
+                break
             default:
                 return this.getState()
         }
@@ -115,6 +138,14 @@ export const addPostAC = (newPostText: string): AddPostAT => ({
 export const updateNewPostTextAC = (newText: string): UpdateNewPostTextAT => ({
     type: 'UPD-NEW-POST-TEXT',
     newText: newText
+})
+export const addMessageAC = (newMessageText: string): AddMessageAT => ({
+    type: "ADD-MESSAGE",
+    newMessageText: newMessageText
+})
+export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageTextAT => ({
+    type: 'UPD-NEW-MESSAGE-TEXT',
+    newMessage: newMessage
 })
 
 

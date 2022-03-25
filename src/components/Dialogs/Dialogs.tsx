@@ -2,10 +2,13 @@ import React from 'react';
 import s from "./Dialogs.module.css"
 import Message from './Message/Message';
 import DialogItem from "./DialogItem/DialogItem";
+import {addMessageAC, AddMessageAT, updateNewMessageTextAC, UpdateNewMessageTextAT,} from "../../redux/state";
 
 type DialogsPropsType = {
     dialogs: Array<DialogItemPropsType>
     messages: Array<MessagesPropsType>
+    newMessageText: string
+    dispatch: (action: | AddMessageAT | UpdateNewMessageTextAT) => void
 }
 
 export type DialogItemPropsType = {
@@ -25,8 +28,17 @@ const Dialogs = (props: DialogsPropsType) => {
 
     let newMessage = React.createRef<HTMLTextAreaElement>()
 
-    const addMessage = () => {
-        alert(newMessage.current?.value)
+    const addMessageCallback = () => {
+        let text = newMessage.current
+        if (text) {
+            props.dispatch(addMessageAC(props.newMessageText))
+        }
+    }
+
+    const onChangeMessageHandler = () => {
+        let text = newMessage.current
+        if (text)
+            props.dispatch(updateNewMessageTextAC(text.value))
     }
 
     return (
@@ -37,10 +49,10 @@ const Dialogs = (props: DialogsPropsType) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div>
-                    <textarea ref={newMessage}> </textarea>
+                    <textarea ref={newMessage} onChange={onChangeMessageHandler} value={props.newMessageText}/>
                 </div>
                 <div>
-                    <button onClick={addMessage}>Add Message</button>
+                    <button onClick={addMessageCallback}>Add Message</button>
                 </div>
             </div>
         </div>

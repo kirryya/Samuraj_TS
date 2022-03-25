@@ -5,12 +5,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {Route, Routes} from "react-router-dom";
-import {AddPostAT, StoreType, UpdateNewPostTextAT} from "./redux/state";
+import {AddMessageAT, AddPostAT, StoreType, UpdateNewMessageTextAT, UpdateNewPostTextAT} from "./redux/state";
 
 
 type AppPropsType = {
     appState: StoreType
-    dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
+    dispatch: (action: AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT) => void
 }
 
 const App = (props: AppPropsType) => {
@@ -26,13 +26,18 @@ const App = (props: AppPropsType) => {
                                                              dispatch={props.dispatch}
                                                              newPostText={state.profilePage.newPostText}/>}/>
                     <Route path="/dialogs/*" element={<Dialogs dialogs={state.messagesPage.dialogs}
-                                                               messages={state.messagesPage.messages}/>}/>
-                    <Route path="/news" element={<Dialogs dialogs={state.messagesPage.dialogs}
-                                                          messages={state.messagesPage.messages}/>}/>
-                    <Route path="/music" element={<Dialogs dialogs={state.messagesPage.dialogs}
-                                                           messages={state.messagesPage.messages}/>}/>
-                    <Route path="/settings" element={<Dialogs dialogs={state.messagesPage.dialogs}
-                                                              messages={state.messagesPage.messages}/>}/>
+                                                               messages={state.messagesPage.messages}
+                                                               dispatch={props.dispatch}
+                                                               newMessageText={state.messagesPage.newMessageText}/>}/>
+                    <Route path="/news" element={{/*<Dialogs dialogs={state.messagesPage.dialogs}
+                                                          messages={state.messagesPage.messages}/>*/
+                    }}/>
+                    <Route path="/music" element={{/*<Dialogs dialogs={state.messagesPage.dialogs}
+                                                           messages={state.messagesPage.messages}/>*/
+                    }}/>
+                    <Route path="/settings" element={{/*<Dialogs dialogs={state.messagesPage.dialogs}
+                                                              messages={state.messagesPage.messages}/>*/
+                    }}/>
                 </Routes>
             </div>
         </div>
