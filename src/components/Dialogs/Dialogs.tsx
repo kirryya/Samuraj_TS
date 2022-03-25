@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from "./Dialogs.module.css"
 import Message from './Message/Message';
 import DialogItem from "./DialogItem/DialogItem";
-import {addMessageAC, AddMessageAT, updateNewMessageTextAC, UpdateNewMessageTextAT,} from "../../redux/state";
+import {sendMessageAC, AddMessageAT, updateNewMessageTextAC, UpdateNewMessageTextAT} from "../../redux/state";
 
 type DialogsPropsType = {
     dialogs: Array<DialogItemPropsType>
@@ -23,22 +23,16 @@ export type MessagesPropsType = {
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    let dialogsElements = props.dialogs.map(d => <DialogItem id={d.id} name={d.name}/>)
-    let messagesElements = props.messages.map(m => <Message message={m.message}/>)
+    let dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} id={d.id} name={d.name}/>)
+    let messagesElements = props.messages.map(m => <Message key={m.id} message={m.message}/>)
 
-    let newMessage = React.createRef<HTMLTextAreaElement>()
 
-    const addMessageCallback = () => {
-        let text = newMessage.current
-        if (text) {
-            props.dispatch(addMessageAC(props.newMessageText))
-        }
+    const sendMessageCallback = () => {
+        props.dispatch(sendMessageAC(props.newMessageText))
     }
 
-    const onChangeMessageHandler = () => {
-        let text = newMessage.current
-        if (text)
-            props.dispatch(updateNewMessageTextAC(text.value))
+    const onChangeMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.dispatch(updateNewMessageTextAC(e.currentTarget.value))
     }
 
     return (
@@ -47,12 +41,14 @@ const Dialogs = (props: DialogsPropsType) => {
                 {dialogsElements}
             </div>
             <div className={s.messages}>
-                {messagesElements}
                 <div>
-                    <textarea ref={newMessage} onChange={onChangeMessageHandler} value={props.newMessageText}/>
+                    {messagesElements}
                 </div>
                 <div>
-                    <button onClick={addMessageCallback}>Add Message</button>
+                    <textarea onChange={onChangeMessageHandler} value={props.newMessageText}/>
+                </div>
+                <div>
+                    <button onClick={sendMessageCallback}>Send Message</button>
                 </div>
             </div>
         </div>

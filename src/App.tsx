@@ -29,15 +29,9 @@ const App = (props: AppPropsType) => {
                                                                messages={state.messagesPage.messages}
                                                                dispatch={props.dispatch}
                                                                newMessageText={state.messagesPage.newMessageText}/>}/>
-                    <Route path="/news" element={{/*<Dialogs dialogs={state.messagesPage.dialogs}
-                                                          messages={state.messagesPage.messages}/>*/
-                    }}/>
-                    <Route path="/music" element={{/*<Dialogs dialogs={state.messagesPage.dialogs}
-                                                           messages={state.messagesPage.messages}/>*/
-                    }}/>
-                    <Route path="/settings" element={{/*<Dialogs dialogs={state.messagesPage.dialogs}
-                                                              messages={state.messagesPage.messages}/>*/
-                    }}/>
+                    <Route path="/news" element={() => {}}/>
+                    <Route path="/music" element={() => {}}/>
+                    <Route path="/settings" element={() => {}}/>
                 </Routes>
             </div>
         </div>

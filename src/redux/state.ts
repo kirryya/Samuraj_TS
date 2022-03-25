@@ -49,7 +49,7 @@ export type UpdateNewPostTextAT = {
     newText: string
 }
 export type AddMessageAT = {
-    type: 'ADD-MESSAGE'
+    type: 'SEND-MESSAGE'
     newMessageText: string
 }
 export type UpdateNewMessageTextAT = {
@@ -111,7 +111,7 @@ let store: StoreType = {
                 this._state.profilePage.newPostText = action.newText;
                 this._onChange()
                 break
-            case 'ADD-MESSAGE':
+            case 'SEND-MESSAGE':
                 const newMessage = {
                     id: 7,
                     message: action.newMessageText
@@ -139,8 +139,8 @@ export const updateNewPostTextAC = (newText: string): UpdateNewPostTextAT => ({
     type: 'UPD-NEW-POST-TEXT',
     newText: newText
 })
-export const addMessageAC = (newMessageText: string): AddMessageAT => ({
-    type: "ADD-MESSAGE",
+export const sendMessageAC = (newMessageText: string): AddMessageAT => ({
+    type: "SEND-MESSAGE",
     newMessageText: newMessageText
 })
 export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageTextAT => ({
