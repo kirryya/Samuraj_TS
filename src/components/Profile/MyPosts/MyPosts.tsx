@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {AddPostAT, UpdateNewPostTextAT} from "../../../redux/state";
+import {addPostAC, AddPostAT, updateNewPostTextAC, UpdateNewPostTextAT} from "../../../redux/state";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
@@ -15,7 +15,6 @@ export type PostsType = {
     likeCount: number
 }
 
-
 const MyPosts = (props: MyPostsPropsType) => {
 
     let postsElements = props.posts.map(p => <Post message={p.message} likeCount={p.likeCount}/>)
@@ -25,14 +24,14 @@ const MyPosts = (props: MyPostsPropsType) => {
     const addPostCallback = () => {
         let text = newPostElement.current
         if (text) {
-            props.dispatch({type: 'ADD-POST', newPostText: props.newPostText})
+            props.dispatch(addPostAC(props.newPostText))
         }
     }
 
     const onChangeInputHandler = () => {
         let text = newPostElement.current
         if (text)
-            props.dispatch({type: 'UPD-NEW-POST-TEXT', newText: text.value})
+            props.dispatch(updateNewPostTextAC(text.value))
     }
 
     return (

@@ -123,5 +123,19 @@ let store: StoreType = {
     }
 }
 
+export const addPostAC = (newPostText:string): AddPostAT => {
+    return {
+        type: 'ADD-POST',
+        newPostText: newPostText
+    }
+}
+
+export const updateNewPostTextAC = (newText:string): UpdateNewPostTextAT => {
+    return {
+        type: 'UPD-NEW-POST-TEXT',
+        newText: newText
+    }
+}
+
 
 export default store;
