@@ -23,14 +23,16 @@ const MyPosts = (props: MyPostsPropsType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPostCallback = () => {
-        if (newPostElement.current) {
+        let text = newPostElement.current
+        if (text) {
             props.dispatch({type: 'ADD-POST', newPostText: props.newPostText})
         }
     }
 
     const onChangeInputHandler = () => {
-        if (newPostElement.current)
-            props.dispatch({type: 'UPD-NEW-POST-TEXT', newText: newPostElement.current.value})
+        let text = newPostElement.current
+        if (text)
+            props.dispatch({type: 'UPD-NEW-POST-TEXT', newText: text.value})
     }
 
     return (
@@ -38,7 +40,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement} onChange={onChangeInputHandler}/>
+                    <textarea ref={newPostElement} onChange={onChangeInputHandler} value={props.newPostText}/>
                 </div>
                 <div>
                     <button onClick={addPostCallback}>Add post</button>

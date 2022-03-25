@@ -35,8 +35,8 @@ export type StoreType = {
     _onChange: () => void
     getState: () => StateType
     subscribe: (observer: () => void) => void
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+   /* addPost: () => void
+    updateNewPostText: (newText: string) => void*/
     dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
 }
 
@@ -87,7 +87,7 @@ let store: StoreType = {
     subscribe(observer) {
         this._onChange = observer // паттерн observer
     },
-    addPost() {
+    /*addPost() {
         const newPost = {
             id: 7,
             message: this._state.profilePage.newPostText,
@@ -100,7 +100,7 @@ let store: StoreType = {
     updateNewPostText(newText: string) {
         this._state.profilePage.newPostText = newText;
         this._onChange()
-    },
+    },*/
     dispatch: function (action) {
         switch (action.type) {
             case 'ADD-POST':
@@ -118,7 +118,7 @@ let store: StoreType = {
                 this._onChange()
                 break
             default:
-                return store
+                return this.getState()
         }
     }
 }
