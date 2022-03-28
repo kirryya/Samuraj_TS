@@ -14,12 +14,12 @@ type PostType = {
     likeCount: number
 }
 
-type ProfilePageType = {
+export type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
 }
 
-type MessagesPageType = {
+export type MessagesPageType = {
     messages: Array<MessageType>
     dialogs: Array<DialogType>
     newMessageText: string
