@@ -1,3 +1,6 @@
+import profileReducer, {AddPostAT, UpdateNewPostTextAT} from "./profile-reducer";
+import dialogsReducer, {AddMessageAT, UpdateNewMessageTextAT} from "./dialogs-reducer";
+
 type MessageType = {
     id: number
     message: string
@@ -39,23 +42,7 @@ export type StoreType = {
     dispatch: (action: AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT) => void
 }
 
-export type AddPostAT = {
-    type: 'ADD-POST'
-    newPostText: string
-}
-
-export type UpdateNewPostTextAT = {
-    type: 'UPD-NEW-POST-TEXT'
-    newText: string
-}
-export type AddMessageAT = {
-    type: 'SEND-MESSAGE'
-    newMessageText: string
-}
-export type UpdateNewMessageTextAT = {
-    type: 'UPD-NEW-MESSAGE-TEXT'
-    newMessage: string
-}
+export type ActionAT = AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT
 
 
 let store: StoreType = {
@@ -95,58 +82,11 @@ let store: StoreType = {
     subscribe(observer) {
         this._onChange = observer // паттерн observer
     },
-    dispatch: function (action) {
-        switch (action.type) {
-            case 'ADD-POST':
-                const newPost = {
-                    id: 7,
-                    message: action.newPostText,
-                    likeCount: 0
-                };
-                this._state.profilePage.posts.push(newPost);
-                this._state.profilePage.newPostText = ''
-                this._onChange()
-                break
-            case 'UPD-NEW-POST-TEXT' :
-                this._state.profilePage.newPostText = action.newText;
-                this._onChange()
-                break
-            case 'SEND-MESSAGE':
-                const newMessage = {
-                    id: 7,
-                    message: action.newMessageText
-                };
-                this._state.messagesPage.messages.push(newMessage);
-                this._state.messagesPage.newMessageText = ''
-                this._onChange()
-                break
-            case 'UPD-NEW-MESSAGE-TEXT' :
-                this._state.messagesPage.newMessageText = action.newMessage;
-                this._onChange()
-                break
-            default:
-                return this.getState()
-        }
+    dispatch(action) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        this._onChange()
     }
 }
-
-export const addPostAC = (newPostText: string): AddPostAT => ({
-    type: 'ADD-POST',
-    newPostText: newPostText
-})
-
-export const updateNewPostTextAC = (newText: string): UpdateNewPostTextAT => ({
-    type: 'UPD-NEW-POST-TEXT',
-    newText: newText
-})
-export const sendMessageAC = (newMessageText: string): AddMessageAT => ({
-    type: "SEND-MESSAGE",
-    newMessageText: newMessageText
-})
-export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageTextAT => ({
-    type: 'UPD-NEW-MESSAGE-TEXT',
-    newMessage: newMessage
-})
-
 
 export default store;

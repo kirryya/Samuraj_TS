@@ -5,12 +5,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {Route, Routes} from "react-router-dom";
-import {AddMessageAT, AddPostAT, StoreType, UpdateNewMessageTextAT, UpdateNewPostTextAT} from "./redux/state";
+import {ActionAT, StoreType} from "./redux/state";
 
 
 type AppPropsType = {
     appState: StoreType
-    dispatch: (action: AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT) => void
+    dispatch: (action: ActionAT) => void
 }
 
 const App = (props: AppPropsType) => {

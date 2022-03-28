@@ -1,6 +1,15 @@
-import {AddMessageAT, MessagesPageType, UpdateNewMessageTextAT} from "./state";
+import {ActionAT, MessagesPageType} from "./state";
 
-const dialogsReducer = (state: MessagesPageType, action: AddMessageAT | UpdateNewMessageTextAT) => {
+export type AddMessageAT = {
+    type: 'SEND-MESSAGE'
+    newMessageText: string
+}
+export type UpdateNewMessageTextAT = {
+    type: 'UPD-NEW-MESSAGE-TEXT'
+    newMessage: string
+}
+
+const dialogsReducer = (state: MessagesPageType, action: ActionAT) => {
     switch (action.type) {
         case 'SEND-MESSAGE':
             const newMessage = {
@@ -17,5 +26,16 @@ const dialogsReducer = (state: MessagesPageType, action: AddMessageAT | UpdateNe
             return state
     }
 }
+
+export const sendMessageAC = (newMessageText: string): AddMessageAT => ({
+    type: "SEND-MESSAGE",
+    newMessageText: newMessageText
+})
+export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageTextAT => ({
+    type: 'UPD-NEW-MESSAGE-TEXT',
+    newMessage: newMessage
+})
+
+
 
 export default dialogsReducer;

@@ -1,6 +1,16 @@
-import {AddPostAT, ProfilePageType, UpdateNewPostTextAT} from "./state";
+import {ActionAT,ProfilePageType,} from "./state";
 
-const profileReducer = (state: ProfilePageType, action: AddPostAT | UpdateNewPostTextAT) => {
+export type AddPostAT = {
+    type: 'ADD-POST'
+    newPostText: string
+}
+
+export type UpdateNewPostTextAT = {
+    type: 'UPD-NEW-POST-TEXT'
+    newText: string
+}
+
+const profileReducer = (state: ProfilePageType, action: ActionAT) => {
     switch (action.type) {
         case 'ADD-POST':
             const newPost = {
@@ -18,4 +28,15 @@ const profileReducer = (state: ProfilePageType, action: AddPostAT | UpdateNewPos
             return state
     }
 }
+
+export const addPostAC = (newPostText: string): AddPostAT => ({
+    type: 'ADD-POST',
+    newPostText: newPostText
+})
+
+export const updateNewPostTextAC = (newText: string): UpdateNewPostTextAT => ({
+    type: 'UPD-NEW-POST-TEXT',
+    newText: newText
+})
+
 export default profileReducer;
