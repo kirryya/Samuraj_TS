@@ -9,10 +9,10 @@ const dialogsReducer = (state: MessagesPageType, action: AddMessageAT | UpdateNe
             };
             state.messages.push(newMessage);
             state.newMessageText = ''
-            break
+            return state
         case 'UPD-NEW-MESSAGE-TEXT' :
             state.newMessageText = action.newMessage;
-            break
+            return state
         default:
             return state
     }

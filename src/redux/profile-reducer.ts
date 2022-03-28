@@ -10,11 +10,10 @@ const profileReducer = (state: ProfilePageType, action: AddPostAT | UpdateNewPos
             };
             state.posts.push(newPost);
             state.newPostText = ''
-            break
+            return state
         case 'UPD-NEW-POST-TEXT' :
             state.newPostText = action.newText;
-            break
-
+            return state
         default:
             return state
     }
