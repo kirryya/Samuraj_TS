@@ -3,18 +3,17 @@ import './App.css';
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
-import Dialogs from "./components/Dialogs/Dialogs";
 import {Route, Routes} from "react-router-dom";
 import {ActionAT} from "./redux/store";
 import {ReduxStoreType} from "./redux/redux-store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 type AppPropsType = {
-    appState: ReduxStoreType
+    store: ReduxStoreType
     dispatch: (action: ActionAT) => void
 }
 
 const App = (props: AppPropsType) => {
-    const state = props.appState.getState()
 
     return (
         <div className="app-wrapper">
@@ -22,13 +21,8 @@ const App = (props: AppPropsType) => {
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path="/profile" element={<Profile posts={state.profilePage.posts}
-                                                             dispatch={props.dispatch}
-                                                             newPostText={state.profilePage.newPostText}/>}/>
-                    <Route path="/dialogs/*" element={<Dialogs dialogs={state.messagesPage.dialogs}
-                                                               messages={state.messagesPage.messages}
-                                                               dispatch={props.dispatch}
-                                                               newMessageText={state.messagesPage.newMessageText}/>}/>
+                    <Route path="/profile" element={<Profile store={props.store}/>}/>
+                    <Route path="/dialogs/*" element={<DialogsContainer store={props.store}/>}/>
                     <Route path="/news" element={() => {}}/>
                     <Route path="/music" element={() => {}}/>
                     <Route path="/settings" element={() => {}}/>
@@ -39,3 +33,5 @@ const App = (props: AppPropsType) => {
 }
 
 export default App
+
+

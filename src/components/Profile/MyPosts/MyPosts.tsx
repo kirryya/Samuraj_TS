@@ -1,12 +1,12 @@
 import React, {ChangeEvent} from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {addPostAC, AddPostAT, updateNewPostTextAC, UpdateNewPostTextAT} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
+    addPosts: (newPostText:string) => void
+    updateNewPostText: (newText:string) => void
     newPostText: string
-    dispatch: (action: AddPostAT | UpdateNewPostTextAT) => void
 }
 
 export type PostsType = {
@@ -20,11 +20,11 @@ const MyPosts = (props: MyPostsPropsType) => {
     let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likeCount={p.likeCount}/>)
 
     const addPostCallback = () => {
-        props.dispatch(addPostAC(props.newPostText))
+        props.addPosts(props.newPostText)
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateNewPostTextAC(e.currentTarget.value))
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
