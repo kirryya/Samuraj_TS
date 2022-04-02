@@ -58,5 +58,4 @@ export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageText
     newMessage: newMessage
 })
 
-
 export default dialogsReducer;
