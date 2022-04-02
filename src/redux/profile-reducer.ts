@@ -24,13 +24,12 @@ export type ActionAT = AddPostAT | UpdateNewPostTextAT
 const profileReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'ADD-POST':
-            const newPost = {
-                id: 7,
-                message: action.newPostText,
-                likeCount: 0
-            };
-            state.newPostText = ''
-            return {...state, posts: [...state.posts, newPost]}
+            return {
+                ...state,
+                posts: [...state.posts,
+                    {id: 7, message: action.newPostText, likeCount: 0}],
+                newPostText: ''
+            }
         case 'UPD-NEW-POST-TEXT' :
             return {...state, newPostText: action.newText}
         default:

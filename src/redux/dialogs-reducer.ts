@@ -35,12 +35,13 @@ export type ActionAT = AddMessageAT | UpdateNewMessageTextAT
 const dialogsReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'SEND-MESSAGE':
-            const newMessage = {
-                id: 7,
-                message: action.newMessageText
-            };
-            state.newMessageText = ''
-            return {...state, messages:[...state.messages, newMessage]}
+            return {
+                ...state,
+                messages: [...state.messages,
+                    {id: 7, message: action.newMessageText}
+                ],
+                newMessageText: ''
+            }
         case 'UPD-NEW-MESSAGE-TEXT' :
             return {...state, newMessageText: action.newMessage}
         default:
