@@ -7,7 +7,7 @@ let reducers = combineReducers({
     messagesPage: dialogsReducer
 })
 
-export type ReduxStoreType = typeof store
+export type AppStateType = ReturnType <typeof reducers>
 
 let store = createStore(reducers)
 
