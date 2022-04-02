@@ -42,8 +42,6 @@ type StoreType = {
     dispatch: (action: AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT) => void
 }
 
-type ActionAT = AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT
-
 
 let store: StoreType = {
     _state: {
@@ -92,5 +90,3 @@ let store: StoreType = {
         this._onChange()
     }
 }
-
-export default store;
