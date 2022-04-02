@@ -4,8 +4,8 @@ import Post from "./Post/Post";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
-    addPosts: (newPostText:string) => void
-    updateNewPostText: (newText:string) => void
+    addPosts: (newPostText: string) => void
+    updateNewPostText: (newText: string) => void
     newPostText: string
 }
 
