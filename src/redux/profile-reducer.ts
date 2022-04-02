@@ -1,4 +1,4 @@
-import {ActionAT,ProfilePageType,} from "./store";
+import {PostsType} from "../components/Profile/MyPosts/MyPosts";
 
 export type AddPostAT = {
     type: 'ADD-POST'
@@ -14,11 +14,14 @@ let initialState = {
     posts: [
         {id: 1, message: "Hi, how are you?", likeCount: 15},
         {id: 2, message: "It is my first post", likeCount: 30}
-    ],
+    ] as Array<PostsType>,
     newPostText: ''
 }
 
-const profileReducer = (state: ProfilePageType = initialState , action: ActionAT) => {
+export type InitialStateType = typeof initialState
+export type ActionAT = AddPostAT | UpdateNewPostTextAT
+
+const profileReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'ADD-POST':
             const newPost = {

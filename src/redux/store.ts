@@ -17,12 +17,12 @@ type PostType = {
     likeCount: number
 }
 
-export type ProfilePageType = {
+type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
 }
 
-export type MessagesPageType = {
+type MessagesPageType = {
     messages: Array<MessageType>
     dialogs: Array<DialogType>
     newMessageText: string
@@ -34,7 +34,7 @@ export type StateType = {
 }
 
 
-export type StoreType = {
+type StoreType = {
     _state: StateType
     _onChange: () => void
     getState: () => StateType
@@ -42,7 +42,7 @@ export type StoreType = {
     dispatch: (action: AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT) => void
 }
 
-export type ActionAT = AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT
+type ActionAT = AddPostAT | UpdateNewPostTextAT | AddMessageAT | UpdateNewMessageTextAT
 
 
 let store: StoreType = {
@@ -83,7 +83,11 @@ let store: StoreType = {
         this._onChange = observer // паттерн observer
     },
     dispatch(action) {
+
+        // @ts-ignore
         this._state.profilePage = profileReducer(this._state.profilePage, action)
+
+        // @ts-ignore
         this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
         this._onChange()
     }

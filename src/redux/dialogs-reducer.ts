@@ -1,4 +1,4 @@
-import {ActionAT, MessagesPageType} from "./store";
+import {DialogItemPropsType, MessagesPropsType} from "../components/Dialogs/Dialogs";
 
 export type AddMessageAT = {
     type: 'SEND-MESSAGE'
@@ -17,19 +17,22 @@ let initialState = {
         {id: 4, name: "Sasha"},
         {id: 5, name: "Masha"},
         {id: 6, name: "Valera"}
-    ],
+    ] as Array<DialogItemPropsType>,
     messages: [
         {id: 1, message: "Hi"},
         {id: 2, message: "How are you?"},
         {id: 3, message: "Yo"},
         {id: 4, message: "Yo"},
         {id: 5, message: "Yo"}
-    ],
+    ] as Array<MessagesPropsType>,
     newMessageText: ''
 }
 
+export type InitialStateType = typeof initialState
+export type ActionAT = AddMessageAT | UpdateNewMessageTextAT
 
-const dialogsReducer = (state: MessagesPageType = initialState, action: ActionAT) => {
+
+const dialogsReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'SEND-MESSAGE':
             const newMessage = {
@@ -55,7 +58,6 @@ export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageText
     type: 'UPD-NEW-MESSAGE-TEXT',
     newMessage: newMessage
 })
-
 
 
 export default dialogsReducer;
