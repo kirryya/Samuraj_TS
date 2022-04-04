@@ -6,7 +6,8 @@ const ProfileInfo = () => {
         <div>
             <div>
                 <img src="https://storge.pic2.me/c/1360x800/323/582b0f346f341.jpg"
-                     alt="background"/>
+                     alt="background"
+                     className={s.wallpaper}/>
             </div>
             <div className={s.descriptionBlock}>
                 ava + description
