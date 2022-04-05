@@ -14,7 +14,6 @@ type mapStateToPropsType = {
     users: Array<UserType>
 }
 
-
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         users: state.usersPage.users
