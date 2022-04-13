@@ -54,4 +54,3 @@ const Users = (props: UserPropsType) => {
     );
 };
 
-export default Users;
