@@ -15,9 +15,12 @@ export type setUsersAT = {
 
 export type UserType = {
     id: number
-    photoURL:string
+    photos: {
+        small: string
+        large: string
+    }
     followed: boolean
-    fullName: string
+    name: string
     status: string
     location: {
         city: string
