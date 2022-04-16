@@ -1,7 +1,16 @@
 import React from 'react';
 import s from "./ProfileInfo.module.css";
+import Preloader from "../../common/Preloader/Preloader";
+import {ProfilePropsType} from "../Profile";
 
-const ProfileInfo = () => {
+type ProfileInfoPropsType = ProfilePropsType
+
+
+const ProfileInfo = (props: ProfileInfoPropsType) => {
+    if (!props.profile) {
+        return <Preloader/>
+    }
+
     return (
         <div>
             <div>
@@ -10,6 +19,7 @@ const ProfileInfo = () => {
                      className={s.wallpaper}/>
             </div>
             <div className={s.descriptionBlock}>
+                <img src={props.profile.photos.large} alt="Avatar"/>
                 ava + description
             </div>
         </div>
