@@ -7,7 +7,7 @@ import {setUserProfile} from "../../redux/profile-reducer";
 
 type mapStateToPropsType = ProfilePropsType
 
-class ProfileContainer extends React.Component<any, any> {
+class ProfileContainer extends React.Component<any, ProfilePropsType> {
 
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`)

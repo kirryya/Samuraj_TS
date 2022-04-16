@@ -1,5 +1,5 @@
 import {PostsType} from "../components/Profile/MyPosts/MyPosts";
-import {ProfileType} from "../components/Profile/Profile";
+import {ProfilePropsType} from "../components/Profile/Profile";
 
 export type AddPostAT = {
     type: 'ADD-POST'
@@ -58,7 +58,7 @@ export const updateNewPostTextAC = (newText: string): UpdateNewPostTextAT => ({
     newText: newText
 })
 
-export const setUserProfile = (profile: ProfileType): SetUserProfileAT => ({
+export const setUserProfile = (profile: ProfilePropsType): SetUserProfileAT => ({
     type: 'SET_USER_PROFILE',
     profile: profile
 })
