@@ -6,6 +6,7 @@ import {ProfilePropsType} from "../Profile";
 type ProfileInfoPropsType = ProfilePropsType
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
+
     if (!props.profile) {
         return <Preloader/>
     }
@@ -21,6 +22,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <img src={props.profile.photos.large} alt="Avatar"/>
                 <div>Полное имя: {props.profile.fullName}</div>
                 <div>Про меня: {props.profile.aboutMe}</div>
+                <div>Ищу работу: {(props.profile.lookingForAJob) ? "Да" : "Нет"} </div>
                 <div>Какую ищу работу: {props.profile.lookingForAJobDescription}</div>
             </div>
         </div>
