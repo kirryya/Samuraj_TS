@@ -13,8 +13,11 @@ type mapStateToPropsType = {
 class ProfileContainer extends React.Component<any, ProfilePropsType> {
 
     componentDidMount() {
-        let UserID: string = this.props.router.params.userID;
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + UserID)
+        let userID: string = this.props.router.params.userID;
+        if (!userID) {
+            userID = "2"
+        }
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userID)
             .then(response => {
                 this.props.setUserProfile(response.data);
             });
