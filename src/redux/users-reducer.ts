@@ -1,4 +1,4 @@
-import {usersAPI} from "../api/api";
+import {followAPI, usersAPI} from "../api/api";
 import {Dispatch} from "react";
 
 export type FollowAT = {
@@ -145,6 +145,30 @@ export const getUsers = (currentPage: number, pageSize: number) => {
             dispatch(toggleIsFetching(false));
             dispatch(setUsers(data.items));
             dispatch(setTotalUsersCount(data.totalCount));
+        });
+    }
+}
+
+export const followUser = (userId: number) => {
+    return (dispatch: Dispatch<ActionAT>) => {
+        dispatch(toggleFollowingProgress(true, userId))
+        followAPI.setUnfollow(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(unfollow(userId))
+            }
+            dispatch(toggleFollowingProgress(false, userId))
+        });
+    }
+}
+
+export const unfollowUser = (userId: number) => {
+    return (dispatch: Dispatch<ActionAT>) => {
+        dispatch(toggleFollowingProgress(true, userId))
+        followAPI.setFollow(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(follow(userId))
+            }
+            dispatch(toggleFollowingProgress(false, userId))
         });
     }
 }
