@@ -2,11 +2,12 @@ import React, {JSXElementConstructor} from 'react';
 import Profile, {ProfilePropsType} from "./Profile";
 import {connect} from 'react-redux';
 import {AppStateType} from "../../redux/redux-store";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {getUserProfile} from "../../redux/profile-reducer";
 
 type mapStateToPropsType = {
     profile: ProfilePropsType | null
+    isAuth: boolean
 }
 
 class ProfileContainer extends React.Component<any, ProfilePropsType> {
@@ -20,6 +21,8 @@ class ProfileContainer extends React.Component<any, ProfilePropsType> {
     }
 
     render() {
+        if (!this.props.isAuth) return <Navigate to="/login"/>;
+
         return (
             <Profile {...this.props} profile={this.props.profile}/>
         );
@@ -28,7 +31,8 @@ class ProfileContainer extends React.Component<any, ProfilePropsType> {
 
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     }
 }
 
