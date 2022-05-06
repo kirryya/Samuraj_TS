@@ -2,8 +2,9 @@ import {sendMessageAC, updateNewMessageTextAC} from "../../redux/dialogs-reducer
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {ComponentType} from "react";
 
 
 type mapDispatchToPropsType = {
@@ -30,9 +31,7 @@ let mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
     }
 }
 
-// hoc для перехода на страницу Login, если ты не авторизован
-let AuthRedirectComponent = WithAuthRedirect(Dialogs)
-
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
-
-export default DialogsContainer;
+export default compose<ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    WithAuthRedirect
+)(Dialogs)
