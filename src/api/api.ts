@@ -32,7 +32,7 @@ export const authAPI = {
 }
 
 export const profileAPI = {
-    getProfile(userID: string) {
+    getProfile(userID: number) {
         return instance.get(`profile/` + userID)
             .then(response => response.data);
     }

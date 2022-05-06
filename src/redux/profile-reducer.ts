@@ -1,5 +1,7 @@
 import {PostsType} from "../components/Profile/MyPosts/MyPosts";
 import {ProfilePropsType} from "../components/Profile/Profile";
+import {Dispatch} from "redux";
+import {profileAPI} from "../api/api";
 
 export type AddPostAT = {
     type: 'ADD-POST'
@@ -62,5 +64,13 @@ export const setUserProfile = (profile: ProfilePropsType): SetUserProfileAT => (
     type: 'SET_USER_PROFILE',
     profile: profile
 })
+
+export const getUserProfile = (userId: number) => {
+    return (dispatch: Dispatch<ActionAT>) => {
+        profileAPI.getProfile(userId).then(data => {
+            dispatch(setUserProfile(data));
+        })
+    }
+}
 
 export default profileReducer;

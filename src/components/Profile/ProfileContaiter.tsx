@@ -2,9 +2,8 @@ import React, {JSXElementConstructor} from 'react';
 import Profile, {ProfilePropsType} from "./Profile";
 import {connect} from 'react-redux';
 import {AppStateType} from "../../redux/redux-store";
-import {setUserProfile} from "../../redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {profileAPI} from "../../api/api";
+import {getUserProfile} from "../../redux/profile-reducer";
 
 type mapStateToPropsType = {
     profile: ProfilePropsType | null
@@ -13,13 +12,11 @@ type mapStateToPropsType = {
 class ProfileContainer extends React.Component<any, ProfilePropsType> {
 
     componentDidMount() {
-        let userID: string = this.props.router.params.userID;
+        let userID: number = this.props.router.params.userID;
         if (!userID) {
-            userID = "23120"
+            userID = 23120
         }
-        profileAPI.getProfile(userID).then(data => {
-            this.props.setUserProfile(data);
-        });
+        this.props.getUserProfile(userID);
     }
 
     render() {
@@ -52,4 +49,4 @@ export const withRouter = (Component: JSXElementConstructor<any>): JSXElementCon
     return ComponentWithRouterProp;
 }
 
-export default connect(mapStateToProps, {setUserProfile})(withRouter(ProfileContainer));
+export default connect(mapStateToProps, {getUserProfile})(withRouter(ProfileContainer));
