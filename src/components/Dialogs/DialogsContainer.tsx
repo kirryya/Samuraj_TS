@@ -3,6 +3,7 @@ import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 
 type mapDispatchToPropsType = {
@@ -14,8 +15,7 @@ let mapStateToProps = (state: AppStateType) => {
     return {
         dialogs: state.messagesPage.dialogs,
         messages: state.messagesPage.messages,
-        newMessageText: state.messagesPage.newMessageText,
-        isAuth: state.auth.isAuth
+        newMessageText: state.messagesPage.newMessageText
     }
 }
 
@@ -30,6 +30,9 @@ let mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
     }
 }
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+// hoc для перехода на страницу Login, если ты не авторизован
+let AuthRedirectComponent = WithAuthRedirect(Dialogs)
+
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
 
 export default DialogsContainer;
