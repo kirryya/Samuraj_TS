@@ -18,19 +18,26 @@ export type SetUserProfileAT = {
     profile: any
 }
 
+export type SetStatusAT = {
+    type: 'SET_STATUS'
+    status: string
+}
+
 let initialState = {
     posts: [
         {id: 1, message: "Hi, how are you?", likeCount: 15},
         {id: 2, message: "It is my first post", likeCount: 30}
     ] as Array<PostsType>,
     newPostText: '',
-    profile: null
+    profile: null,
+    status: ""
 }
 
 export type InitialStateType = typeof initialState
 export type ActionAT = AddPostAT
     | UpdateNewPostTextAT
     | SetUserProfileAT
+    | SetStatusAT
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
@@ -45,6 +52,8 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, newPostText: action.newText}
         case "SET_USER_PROFILE":
             return {...state, profile: action.profile}
+        case "SET_STATUS":
+            return {...state, status: action.status}
         default:
             return state
     }
@@ -65,10 +74,31 @@ export const setUserProfile = (profile: ProfilePropsType): SetUserProfileAT => (
     profile: profile
 })
 
+export const setStatus = (status: string): SetStatusAT => ({
+    type: 'SET_STATUS',
+    status: status
+})
+
 export const getUserProfile = (userId: number) => {
     return (dispatch: Dispatch<ActionAT>) => {
         profileAPI.getProfile(userId).then(data => {
             dispatch(setUserProfile(data));
+        })
+    }
+}
+export const getStatus = (userId: number) => {
+    return (dispatch: Dispatch<ActionAT>) => {
+        profileAPI.getStatus(userId).then(data => {
+            dispatch(setStatus(data));
+        })
+    }
+}
+
+export const updateStatus = (status: string) => {
+    return (dispatch: Dispatch<ActionAT>) => {
+        profileAPI.updateStatus(status).then(response => {
+            if (response.data.resultCode === 0)
+            dispatch(setStatus(status));
         })
     }
 }

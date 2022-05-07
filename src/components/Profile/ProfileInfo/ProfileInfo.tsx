@@ -21,7 +21,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
             <div className={s.descriptionBlock}>
                 <img src={props.profile.photos.large} alt="Avatar"/>
-                <ProfileStatus status={"Boom"}/>
+                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
                 <div>Полное имя: {props.profile.fullName}</div>
                 <div>Про меня: {props.profile.aboutMe}</div>
                 <div>Ищу работу: {(props.profile.lookingForAJob) ? "Да" : "Нет"} </div>
