@@ -24,8 +24,6 @@ class ProfileContainer extends React.Component<any, ProfilePropsType> {
         this.props.getStatus(userID)
     }
 
-
-
     render() {
         return (
             <Profile

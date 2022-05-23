@@ -7,12 +7,17 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContaiter";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
+import {News} from "./components/News/News";
+import {Music} from "./components/Music/News";
+import {Settings} from "./components/Settings/News";
+import {ErrorSnackbar} from "./components/common/Error-utils/ErrorSnackBar";
 
 
 const App = () => {
 
     return (
         <div className="app-wrapper">
+            <ErrorSnackbar/>
             <HeaderContainer/>
             <Navbar/>
             <div className="app-wrapper-content">
@@ -22,9 +27,9 @@ const App = () => {
                     <Route path="/dialogs/*" element={<DialogsContainer/>}/>
                     <Route path="/users/" element={<UsersContainer/>}/>
                     <Route path="/login/" element={<Login/>}/>
-                    <Route path="/news" element={() => {}}/>
-                    <Route path="/music" element={() => {}}/>
-                    <Route path="/settings" element={() => {}}/>
+                    <Route path="/news" element={<News/>}/>
+                    <Route path="/music" element={<Music/>}/>
+                    <Route path="/settings" element={<Settings/>}/>
                 </Routes>
             </div>
         </div>

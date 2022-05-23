@@ -65,3 +65,8 @@ export type ResponseType<D = {}> = {
     fieldsErrors: Array<string>
     data: D
 }
+export type MeResponseType = {
+    id: number
+    email: string
+    login: string
+}

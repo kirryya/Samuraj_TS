@@ -13,8 +13,5 @@
 
 .loginBlock {
     float: right;
-}
-
-.loginBlock a {
-    color: black;
+    margin-right: 10px;
 }

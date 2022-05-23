@@ -15,7 +15,6 @@ class HeaderContainer extends React.Component<any, AuthType> {
     }
 
     render() {
-
         const onClickHandler = () => {
             this.props.logoutTC()
         }
