@@ -3,26 +3,6 @@ import {ProfilePropsType} from "../components/Profile/Profile";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
-export type AddPostAT = {
-    type: 'ADD-POST'
-    newPostText: string
-}
-
-export type UpdateNewPostTextAT = {
-    type: 'UPD-NEW-POST-TEXT'
-    newText: string
-}
-
-export type SetUserProfileAT = {
-    type: 'SET_USER_PROFILE'
-    profile: any
-}
-
-export type SetStatusAT = {
-    type: 'SET_STATUS'
-    status: string
-}
-
 let initialState = {
     posts: [
         {id: 1, message: "Hi, how are you?", likeCount: 15},
@@ -32,12 +12,7 @@ let initialState = {
     profile: null,
     status: ""
 }
-
-export type InitialStateType = typeof initialState
-export type ActionAT = AddPostAT
-    | UpdateNewPostTextAT
-    | SetUserProfileAT
-    | SetStatusAT
+type InitialStateType = typeof initialState
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
@@ -59,6 +34,7 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
     }
 }
 
+//actions
 export const addPostAC = (newPostText: string): AddPostAT => ({
     type: 'ADD-POST',
     newPostText: newPostText
@@ -79,28 +55,51 @@ export const setStatus = (status: string): SetStatusAT => ({
     status: status
 })
 
-export const getUserProfile = (userId: number) => {
-    return (dispatch: Dispatch<ActionAT>) => {
-        profileAPI.getProfile(userId).then(data => {
+// thunks
+export const getUserProfile = (userId: number) => (dispatch: Dispatch<ActionAT>) => {
+    profileAPI.getProfile(userId)
+        .then(data => {
             dispatch(setUserProfile(data));
         })
-    }
 }
-export const getStatus = (userId: number) => {
-    return (dispatch: Dispatch<ActionAT>) => {
-        profileAPI.getStatus(userId).then(data => {
+export const getStatus = (userId: number) => (dispatch: Dispatch<ActionAT>) => {
+    profileAPI.getStatus(userId)
+        .then(data => {
             dispatch(setStatus(data));
         })
-    }
+}
+export const updateStatus = (status: string) => (dispatch: Dispatch<ActionAT>) => {
+    profileAPI.updateStatus(status)
+        .then(response => {
+            if (response.data.resultCode === 0)
+                dispatch(setStatus(status));
+        })
 }
 
-export const updateStatus = (status: string) => {
-    return (dispatch: Dispatch<ActionAT>) => {
-        profileAPI.updateStatus(status).then(response => {
-            if (response.data.resultCode === 0)
-            dispatch(setStatus(status));
-        })
-    }
+//types
+export type AddPostAT = {
+    type: 'ADD-POST'
+    newPostText: string
 }
+
+export type UpdateNewPostTextAT = {
+    type: 'UPD-NEW-POST-TEXT'
+    newText: string
+}
+
+export type SetUserProfileAT = {
+    type: 'SET_USER_PROFILE'
+    profile: any
+}
+
+export type SetStatusAT = {
+    type: 'SET_STATUS'
+    status: string
+}
+
+export type ActionAT = AddPostAT
+    | UpdateNewPostTextAT
+    | SetUserProfileAT
+    | SetStatusAT
 
 export default profileReducer;

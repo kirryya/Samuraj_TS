@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../api/api";
+import {authAPI, LoginParamsType} from "../api/api";
 
 export type SetUserDataAT = {
     type: 'SET_USER_DATA'
@@ -24,11 +24,9 @@ let initialState = {
         email: null,
         login: null
     },
-    isAuth: false
+    isAuth: false,
+    isLoggedIn: false
 }
-
-export type InitialStateType = typeof initialState
-export type ActionAT = SetUserDataAT
 
 const authReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
@@ -38,16 +36,24 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
                 ...action.data,
                 isAuth: true
             }
+        case 'login/SET-IS-LOGGED-IN':
+            return {...state, isLoggedIn: action.value}
         default:
             return state
     }
 }
 
+// actions
 export const setAuthUserData = (data: DataType): SetUserDataAT => ({
     type: "SET_USER_DATA",
-    data: data
+    data
 })
+export const setIsLoggedInAC = (value: boolean) => ({
+    type: 'login/SET-IS-LOGGED-IN',
+    value
+} as const)
 
+//thunks
 export const getAuthUserData = () => {
     return (dispatch: Dispatch<ActionAT>) => {
         authAPI.getAuth()
@@ -58,5 +64,27 @@ export const getAuthUserData = () => {
             });
     }
 }
+
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionAT>) => {
+    authAPI.login(data)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedInAC(true))
+            }
+        })
+}
+
+export const logoutTC = () => (dispatch: Dispatch<ActionAT>) => {
+    authAPI.logout()
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedInAC(false))
+            }
+        })
+}
+
+// types
+export type InitialStateType = typeof initialState
+export type ActionAT = ReturnType<typeof setIsLoggedInAC> | SetUserDataAT
 
 export default authReducer;

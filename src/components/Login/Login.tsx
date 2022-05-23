@@ -1,42 +1,85 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import {useFormik} from 'formik';
+import {useDispatch} from "react-redux";
+import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
+import {loginTC} from "../../redux/auth-reducer";
 
 
-const loginFormSchema = Yup.object({
-    email: Yup.string().email('Invalid e-mail').required('Required'),
-    password: Yup.string().min(8, 'Must be longer than 8 characters').required('Required'),
-});
+type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
 
 export const Login = () => {
+
+    const dispatch = useDispatch()
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            rememberMe: false
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 3) {
+                errors.password = 'Must be more than 3';
+            }
+
+            return errors;
+        },
+        onSubmit: values => {
+            dispatch(loginTC(values))
+            formik.resetForm();
+        },
+    })
+
+
     return (
-        <div >
-            <h1>Login</h1>
-            <Formik
-                initialValues={{ email: '', password: '', rememberMe: false }}
-                validationSchema={loginFormSchema}
-                onSubmit={(values) => {
-                    console.log(values);
-                }}
-            >
-                {() => (
-                    <Form>
-                        <div>
-                            <Field type='email' name='email' placeholder='e-mail' />
-                            <ErrorMessage name='email' component='p' />
-                        </div>
-                        <div>
-                            <Field type='password' name='password' placeholder='password' />
-                            <ErrorMessage name='password' component='p' />
-                        </div>
-                        <div>
-                            <Field type='checkbox' name='rememberMe' />
-                            <label htmlFor='rememberMe'>remember me</label>
-                        </div>
-                        <button type='submit'>Log in</button>
-                    </Form>
-                )}
-            </Formik>
+        <div>
+            <h1 style={{textAlign: 'center'}}>Login</h1>
+            <Grid container justifyContent={'center'}>
+                <Grid item justifyContent={'center'}>
+
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormGroup>
+                            <TextField label="Email"
+                                       margin="normal"
+                                       {...formik.getFieldProps('email')}
+                            />
+                            {formik.touched.email && formik.errors.email &&
+                                <div style={{color: "red"}}>{formik.errors.email}</div>}
+
+                            <TextField type="password"
+                                       label="Password"
+                                       margin="normal"
+                                       {...formik.getFieldProps('password')}
+                            />
+                            {formik.touched.password && formik.errors.password &&
+                                <div style={{color: "red"}}>{formik.errors.password}</div>}
+
+                            <FormControlLabel label={'Remember me'}
+                                              control={<Checkbox
+                                                  checked={formik.values.rememberMe}
+                                                  {...formik.getFieldProps('rememberMe')}
+                                              />}
+                            />
+                            <Button type={'submit'} variant={'contained'} color={'primary'}>
+                                Login
+                            </Button>
+                        </FormGroup>
+                    </form>
+                </Grid>
+            </Grid>
         </div>
     );
 };
