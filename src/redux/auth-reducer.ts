@@ -25,7 +25,6 @@ let initialState = {
         login: null
     },
     isAuth: false,
-    isLoggedIn: false
 }
 
 const authReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
@@ -37,7 +36,7 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
                 isAuth: true
             }
         case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
+            return {...state, isAuth: action.value}
         default:
             return state
     }

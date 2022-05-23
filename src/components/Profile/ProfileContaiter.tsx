@@ -19,9 +19,12 @@ class ProfileContainer extends React.Component<any, ProfilePropsType> {
         if (!userID) {
             userID = 23120
         }
+
         this.props.getUserProfile(userID);
         this.props.getStatus(userID)
     }
+
+
 
     render() {
         return (
@@ -41,6 +44,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         status: state.profilePage.status
     }
 }
+
 
 export default compose<ComponentType>(
     connect(mapStateToProps, {getUserProfile, getStatus, updateStatus}),

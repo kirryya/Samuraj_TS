@@ -1,8 +1,10 @@
 import React from 'react';
 import {useFormik} from 'formik';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
 import {loginTC} from "../../redux/auth-reducer";
+import { Navigate } from 'react-router-dom';
+import {AppStateType} from "../../redux/redux-store";
 
 
 type FormikErrorType = {
@@ -14,6 +16,7 @@ type FormikErrorType = {
 export const Login = () => {
 
     const dispatch = useDispatch()
+    const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
 
     const formik = useFormik({
         initialValues: {
@@ -43,6 +46,9 @@ export const Login = () => {
         },
     })
 
+    if (isAuth) {
+        return <Navigate to={'/profile'}/>
+    }
 
     return (
         <div>
