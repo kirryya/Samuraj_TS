@@ -10,6 +10,8 @@ import {withRouter} from '../../hoc/WithRouter';
 type mapStateToPropsType = {
     profile: ProfilePropsType | null
     status: string
+    authorizedUserId: number | null
+    isAuth: boolean
 }
 
 class ProfileContainer extends React.Component<any, ProfilePropsType> {
@@ -17,9 +19,8 @@ class ProfileContainer extends React.Component<any, ProfilePropsType> {
     componentDidMount() {
         let userID: number = this.props.router.params.userID;
         if (!userID) {
-            userID = 23120
+            userID = 23120/*this.props.authorizedUserId*/
         }
-
         this.props.getUserProfile(userID);
         this.props.getStatus(userID)
     }
@@ -39,7 +40,9 @@ class ProfileContainer extends React.Component<any, ProfilePropsType> {
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.data.userId,
+        isAuth: state.auth.isAuth
     }
 }
 

@@ -22,6 +22,10 @@ export type MessagesPropsType = {
     message: string
 }
 
+type FormikErrorType = {
+    newMessageText?: string
+}
+
 
 const Dialogs = (props: DialogsPropsType) => {
 
@@ -31,6 +35,13 @@ const Dialogs = (props: DialogsPropsType) => {
     const formik = useFormik({
         initialValues: {
             newMessageText: '',
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.newMessageText) {
+                errors.newMessageText = 'Required';
+            }
+            return errors;
         },
         onSubmit: values => {
             props.sendMessage(values.newMessageText);
@@ -49,6 +60,8 @@ const Dialogs = (props: DialogsPropsType) => {
                 </div>
                 <div>
                     <form onSubmit={formik.handleSubmit}>
+                        {formik.touched.newMessageText && formik.errors.newMessageText &&
+                            <div style={{color: "red"}}>{formik.errors.newMessageText}</div>}
                         <TextField
                             id="outlined-basic"
                             label="Enter your message"

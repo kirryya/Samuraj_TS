@@ -44,12 +44,12 @@ export const setErrorAC = (error: string | null) => ({
 //thunks
 export const getAuthUserData = () => (dispatch: Dispatch<ActionAT>) => {
     authAPI.getAuth()
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setAuthUserData(data))
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setAuthUserData(res.data))
                 dispatch(setIsLoggedInAC(true))
             } else {
-                handleServerAppError(data, dispatch)
+                handleServerAppError(res.data, dispatch)
             }
         })
         .catch((error) => {
@@ -57,11 +57,11 @@ export const getAuthUserData = () => (dispatch: Dispatch<ActionAT>) => {
         })
 }
 
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionAT>) => {
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionAT | any>) => {
     authAPI.login(data)
         .then((res) => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(true))
+                dispatch(getAuthUserData())
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -75,6 +75,11 @@ export const logoutTC = () => (dispatch: Dispatch<ActionAT>) => {
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
+                dispatch(setAuthUserData({
+                    userId: null,
+                    email: null,
+                    login: null
+                }))
                 dispatch(setIsLoggedInAC(false))
             } else {
                 handleServerAppError(res.data, dispatch)

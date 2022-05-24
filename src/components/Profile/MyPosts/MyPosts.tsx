@@ -17,6 +17,10 @@ export type PostsType = {
     likeCount: number
 }
 
+type FormikErrorType = {
+    newPostText?: string
+}
+
 const MyPosts = (props: MyPostsPropsType) => {
 
     let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likeCount={p.likeCount}/>)
@@ -24,6 +28,13 @@ const MyPosts = (props: MyPostsPropsType) => {
     const formik = useFormik({
         initialValues: {
             newPostText: '',
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.newPostText) {
+                errors.newPostText = 'Required';
+            }
+            return errors;
         },
         onSubmit: values => {
             props.addPosts(values.newPostText);
@@ -36,6 +47,8 @@ const MyPosts = (props: MyPostsPropsType) => {
             <h3>My posts</h3>
             <div>
                 <form onSubmit={formik.handleSubmit}>
+                    {formik.touched.newPostText && formik.errors.newPostText &&
+                        <div style={{color: "red"}}>{formik.errors.newPostText}</div>}
                     <TextField
                         id="outlined-basic"
                         label="Enter your post"

@@ -27,7 +27,6 @@ export const followAPI = {
 export const authAPI = {
     getAuth() {
         return instance.get(`auth/me`)
-            .then(response => response.data);
     },
     login (data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', data)
