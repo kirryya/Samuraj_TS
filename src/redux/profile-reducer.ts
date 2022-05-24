@@ -8,7 +8,6 @@ let initialState = {
         {id: 1, message: "Hi, how are you?", likeCount: 15},
         {id: 2, message: "It is my first post", likeCount: 30}
     ] as Array<PostsType>,
-    newPostText: '',
     profile: null,
     status: ""
 }
@@ -20,11 +19,8 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {
                 ...state,
                 posts: [...state.posts,
-                    {id: 7, message: action.newPostText, likeCount: 0}],
-                newPostText: ''
+                    {id: 7, message: action.newPostText, likeCount: 0}]
             }
-        case 'UPD-NEW-POST-TEXT' :
-            return {...state, newPostText: action.newText}
         case "SET_USER_PROFILE":
             return {...state, profile: action.profile}
         case "SET_STATUS":
@@ -38,11 +34,6 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
 export const addPostAC = (newPostText: string): AddPostAT => ({
     type: 'ADD-POST',
     newPostText: newPostText
-})
-
-export const updateNewPostTextAC = (newText: string): UpdateNewPostTextAT => ({
-    type: 'UPD-NEW-POST-TEXT',
-    newText: newText
 })
 
 export const setUserProfile = (profile: ProfilePropsType): SetUserProfileAT => ({
@@ -82,11 +73,6 @@ export type AddPostAT = {
     newPostText: string
 }
 
-export type UpdateNewPostTextAT = {
-    type: 'UPD-NEW-POST-TEXT'
-    newText: string
-}
-
 export type SetUserProfileAT = {
     type: 'SET_USER_PROFILE'
     profile: any
@@ -98,7 +84,6 @@ export type SetStatusAT = {
 }
 
 export type ActionAT = AddPostAT
-    | UpdateNewPostTextAT
     | SetUserProfileAT
     | SetStatusAT
 

@@ -1,14 +1,5 @@
 import {DialogItemPropsType, MessagesPropsType} from "../components/Dialogs/Dialogs";
 
-export type AddMessageAT = {
-    type: 'SEND-MESSAGE'
-    newMessageText: string
-}
-export type UpdateNewMessageTextAT = {
-    type: 'UPD-NEW-MESSAGE-TEXT'
-    newMessage: string
-}
-
 let initialState = {
     dialogs: [
         {id: 1, name: "Dimych"},
@@ -24,13 +15,8 @@ let initialState = {
         {id: 3, message: "Yo"},
         {id: 4, message: "Yo"},
         {id: 5, message: "Yo"}
-    ] as Array<MessagesPropsType>,
-    newMessageText: ''
+    ] as Array<MessagesPropsType>
 }
-
-export type InitialStateType = typeof initialState
-export type ActionAT = AddMessageAT | UpdateNewMessageTextAT
-
 
 const dialogsReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
@@ -39,23 +25,20 @@ const dialogsReducer = (state: InitialStateType = initialState, action: ActionAT
                 ...state,
                 messages: [...state.messages,
                     {id: 7, message: action.newMessageText}
-                ],
-                newMessageText: ''
+                ]
             }
-        case 'UPD-NEW-MESSAGE-TEXT' :
-            return {...state, newMessageText: action.newMessage}
         default:
             return state
     }
 }
 
-export const sendMessageAC = (newMessageText: string): AddMessageAT => ({
+export const sendMessageAC = (newMessageText: string) => ({
     type: "SEND-MESSAGE",
     newMessageText: newMessageText
-})
-export const updateNewMessageTextAC = (newMessage: string): UpdateNewMessageTextAT => ({
-    type: 'UPD-NEW-MESSAGE-TEXT',
-    newMessage: newMessage
-})
+} as const)
+
+//types
+export type InitialStateType = typeof initialState
+export type ActionAT = ReturnType<typeof sendMessageAC>
 
 export default dialogsReducer;

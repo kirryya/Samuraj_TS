@@ -1,12 +1,14 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
+import {TextField} from "@mui/material";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
+import {useFormik} from "formik";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
     addPosts: (newPostText: string) => void
-    updateNewPostText: (newText: string) => void
-    newPostText: string
 }
 
 export type PostsType = {
@@ -19,24 +21,36 @@ const MyPosts = (props: MyPostsPropsType) => {
 
     let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likeCount={p.likeCount}/>)
 
-    const addPostCallback = () => {
-        props.addPosts(props.newPostText)
-    }
-
-    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
-    }
+    const formik = useFormik({
+        initialValues: {
+            newPostText: '',
+        },
+        onSubmit: values => {
+            props.addPosts(values.newPostText);
+            formik.resetForm();
+        },
+    });
 
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
             <div>
-                <div>
-                    <textarea onChange={onChangeInputHandler} value={props.newPostText}/>
-                </div>
-                <div>
-                    <button onClick={addPostCallback}>Add post</button>
-                </div>
+                <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                        id="outlined-basic"
+                        label="Enter your post"
+                        variant="outlined"
+                        {...formik.getFieldProps('newPostText')}
+                    />
+                    <Button
+                        type="submit"
+                        variant="outlined"
+                        endIcon={<SendIcon/>}
+                        style={{maxWidth: '100px', maxHeight: '50px', minWidth: '131px', minHeight: '56px'}}
+                    >
+                        Add Post
+                    </Button>
+                </form>
             </div>
             <div className={s.posts}>
                 {postsElements}
