@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../api/api";
 import {handleServerNetworkError} from "../components/common/Error-utils/error-utils";
+import {getAuthUserData} from "./auth-reducer";
 
 let initialState = {
     isInitialized: false,
@@ -27,8 +27,8 @@ export const setErrorAC = (error: string | null) => ({
 } as const)
 
 //thunks
-export const initializeAppTC = () => (dispatch: Dispatch<ActionAT>) => {
-    authAPI.getAuth()
+export const initializeAppTC = () => (dispatch: any): any => {
+    getAuthUserData
         .then(() => {
             dispatch(initializedSuccessAC())
         })
