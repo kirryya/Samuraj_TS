@@ -43,7 +43,7 @@ export const setErrorAC = (error: string | null) => ({
 
 //thunks
 export const getAuthUserData = () => (dispatch: Dispatch<ActionAT>) => {
-    authAPI.getAuth()
+    return authAPI.getAuth()
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setAuthUserData(res.data))

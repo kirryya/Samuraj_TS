@@ -1,13 +1,16 @@
-import {Dispatch} from "redux";
 import {handleServerNetworkError} from "../components/common/Error-utils/error-utils";
 import {getAuthUserData} from "./auth-reducer";
+import {AppStateType} from "./redux-store";
+import {AnyAction} from "redux";
+import {ThunkAction} from "redux-thunk";
+
 
 let initialState = {
     isInitialized: false,
     error: null
 }
 
-const authReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
+const appReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'INITIALIZED-SUCCESS':
             return {...state, isInitialized: true}
@@ -20,30 +23,32 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
 
 // actions
 export const initializedSuccessAC = () => ({
-    type: "INITIALIZED-SUCCESS"
+    type: 'INITIALIZED-SUCCESS'
 } as const)
 export const setErrorAC = (error: string | null) => ({
     type: 'SET-ERROR', error
 } as const)
 
 //thunks
-export const initializeAppTC = () => (dispatch: any): any => {
-    getAuthUserData
-        .then(() => {
-            dispatch(initializedSuccessAC())
-        })
-        .catch((error) => {
-            handleServerNetworkError(error, dispatch)
-        })
-}
+export const initializeAppTC = (): ThunkAction<void, AppStateType, unknown, AnyAction> =>
+    (dispatch) => {
+        dispatch(getAuthUserData())
+            .then(() => {
+                dispatch(initializedSuccessAC())
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+            })
+    }
 
 // types
 export type InitialStateType = {
     isInitialized: boolean,
     error: null | string
-
 }
+
 export type SetErrorAT = ReturnType<typeof setErrorAC>
 export type ActionAT = ReturnType<typeof initializedSuccessAC> | SetErrorAT
 
-export default authReducer;
+
+export default appReducer;

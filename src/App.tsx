@@ -12,21 +12,22 @@ import {Music} from "./components/Music/News";
 import {Settings} from "./components/Settings/News";
 import {ErrorSnackbar} from "./components/common/Error-utils/ErrorSnackBar";
 import {initializeAppTC} from "./redux/app-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "./redux/redux-store";
+import {useSelector} from "react-redux";
+import {AppStateType, useAppDispatch} from "./redux/redux-store";
 import Preloader from "./components/common/Preloader/Preloader";
 
 
 const App = () => {
 
-    const isInitialized = useSelector<AppStateType, boolean>( state => state.app.isInitialized)
-    const dispatch = useDispatch()
+    const isInitialized = useSelector<AppStateType, boolean>(state => state.app.isInitialized)
+    const dispatch = useAppDispatch()
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(initializeAppTC())
-    }, [])
+    }, [dispatch])
 
     if (!isInitialized) return <Preloader/>
+
     return (
         <div className="app-wrapper">
             <ErrorSnackbar/>
