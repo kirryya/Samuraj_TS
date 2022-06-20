@@ -12,7 +12,7 @@ export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: Dispatc
    /* dispatch(setAppStatusAC('failed'))*/
 }
 
-export const handleServerNetworkError = (error: { message: string }, dispatch: Dispatch<SetErrorAT>) => {
+export const handleServerNetworkError = (error: {message: string}, dispatch: Dispatch<SetErrorAT>) => {
     dispatch(setErrorAC(error.message ? error.message : 'Some error occurred'))
     /*dispatch(setAppStatusAC('failed'))*/
 }

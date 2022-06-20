@@ -12,9 +12,9 @@ let initialState = {
 
 const appReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
-        case 'INITIALIZED-SUCCESS':
+        case 'APP/INITIALIZED-SUCCESS':
             return {...state, isInitialized: true}
-        case 'SET-ERROR':
+        case 'APP/SET-ERROR':
             return {...state, error: action.error}
         default:
             return state
@@ -23,10 +23,10 @@ const appReducer = (state: InitialStateType = initialState, action: ActionAT): I
 
 // actions
 export const initializedSuccessAC = () => ({
-    type: 'INITIALIZED-SUCCESS'
+    type: 'APP/INITIALIZED-SUCCESS'
 } as const)
 export const setErrorAC = (error: string | null) => ({
-    type: 'SET-ERROR', error
+    type: 'APP/SET-ERROR', error
 } as const)
 
 //thunks

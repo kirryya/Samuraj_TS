@@ -14,14 +14,11 @@ let initialState = {
 
 const authReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
-        case 'SET_USER_DATA':
-            return {
-                ...state,
-                ...action.data
-            }
-        case 'SET-IS-LOGGED-IN':
+        case 'AUTH/SET_USER_DATA':
+            return {...state, ...action.data}
+        case 'AUTH/SET-IS-LOGGED-IN':
             return {...state, isAuth: action.value}
-        case 'SET-ERROR':
+        case 'AUTH/SET-ERROR':
             return {...state, error: action.error}
         default:
             return state
@@ -29,65 +26,68 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
 }
 
 // actions
-export const setAuthUserData = (data: DataType): SetUserDataAT => ({
-    type: "SET_USER_DATA",
+export const setAuthUserData = (data: DataType) => ({
+    type: "AUTH/SET_USER_DATA",
     data
-})
+} as const)
 export const setIsLoggedInAC = (value: boolean) => ({
-    type: 'SET-IS-LOGGED-IN',
+    type: 'AUTH/SET-IS-LOGGED-IN',
     value
 } as const)
 export const setErrorAC = (error: string | null) => ({
-    type: 'SET-ERROR', error
+    type: 'AUTH/SET-ERROR', error
 } as const)
 
 //thunks
-export const getAuthUserData = () => (dispatch: Dispatch<ActionAT>) => {
-    return authAPI.getAuth()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setAuthUserData(res.data))
-                dispatch(setIsLoggedInAC(true))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error) => {
+export const getAuthUserData = () => async (dispatch: Dispatch<ActionAT>) => {
+    try {
+        let res = await authAPI.getAuth()
+        if (res.data.resultCode === 0) {
+            dispatch(setAuthUserData(res.data))
+            dispatch(setIsLoggedInAC(true))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (error) {
+        if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)
-        })
+        }
+    }
 }
 
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionAT | any>) => {
-    authAPI.login(data)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(getAuthUserData())
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error) => {
+export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch<ActionAT | any>) => {
+    try {
+        let res = await authAPI.login(data)
+        if (res.data.resultCode === 0) {
+            dispatch(getAuthUserData())
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (error) {
+        if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)
-        })
+        }
+    }
 }
 
-export const logoutTC = () => (dispatch: Dispatch<ActionAT>) => {
-    authAPI.logout()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setAuthUserData({
-                    userId: null,
-                    email: null,
-                    login: null
-                }))
-                dispatch(setIsLoggedInAC(false))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((error) => {
+export const logoutTC = () => async (dispatch: Dispatch<ActionAT>) => {
+    try {
+        let res = await authAPI.logout()
+        if (res.data.resultCode === 0) {
+            dispatch(setAuthUserData({
+                userId: null,
+                email: null,
+                login: null
+            }))
+            dispatch(setIsLoggedInAC(false))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (error) {
+        if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)
-        })
+        }
+    }
 }
 
 // types
@@ -102,11 +102,10 @@ export type InitialStateType = {
 
 }
 export type SetErrorAT = ReturnType<typeof setErrorAC>
-export type ActionAT = ReturnType<typeof setIsLoggedInAC> | SetUserDataAT | SetErrorAT
-export type SetUserDataAT = {
-    type: 'SET_USER_DATA'
-    data: DataType
-}
+export type ActionAT = ReturnType<typeof setIsLoggedInAC>
+    | ReturnType<typeof setAuthUserData>
+    | SetErrorAT
+
 export type DataType = {
     userId: number | null,
     email: string | null,
