@@ -1,5 +1,8 @@
-import {followAPI, usersAPI} from "../api/api";
-import {Dispatch} from "react";
+import {followAPI, ResponseType, usersAPI} from '../api/api';
+import {Dispatch} from 'redux';
+import {handleServerNetworkError} from '../components/common/Error-utils/error-utils';
+import {SetErrorAT} from './auth-reducer';
+import {AxiosResponse} from "axios";
 
 let initialState = {
     users: [] as UserType[],
@@ -9,8 +12,6 @@ let initialState = {
     isFetching: false,
     followingInProgress: [] as number[]
 }
-
-export type InitialStateType = typeof initialState
 
 const usersReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
@@ -71,40 +72,46 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
 } as const)
 
 // thunks
-export const requestUsers = (currentPage: number, pageSize: number) => {
-    return (dispatch: Dispatch<ActionAT>) => {
-        dispatch(toggleIsFetching(true))
-        dispatch(setCurrentPage(currentPage))
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
-            dispatch(toggleIsFetching(false));
-            dispatch(setUsers(data.items));
-            dispatch(setTotalUsersCount(data.totalCount));
-        });
+export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: Dispatch<ActionAT>) => {
+    dispatch(toggleIsFetching(true))
+    dispatch(setCurrentPage(currentPage))
+    try {
+        let data = await usersAPI.getUsers(currentPage, pageSize)
+        dispatch(toggleIsFetching(false));
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount));
+    } catch (error) {
+        if (error instanceof Error) {
+            handleServerNetworkError(error, dispatch)
+        }
     }
 }
 
-export const followUser = (userId: number) => {
-    return (dispatch: Dispatch<ActionAT>) => {
-        dispatch(toggleFollowingProgress(true, userId))
-        followAPI.setUnfollow(userId).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(unfollow(userId))
-            }
-            dispatch(toggleFollowingProgress(false, userId))
-        });
+const followUnfollowFlow = async (
+    dispatch: Dispatch<ActionAT>,
+    userId: number,
+    apiMethod: (userId: number) => Promise<AxiosResponse<ResponseType>>,
+    actionCreator: (userId: number) => ActionAT
+) => {
+    dispatch(toggleFollowingProgress(true, userId))
+    try {
+        let response = await apiMethod(userId)
+        if (response.data.resultCode === 0) {
+            dispatch(actionCreator(userId))
+        }
+        dispatch(toggleFollowingProgress(false, userId))
+    } catch (error) {
+        if (error instanceof Error) {
+            handleServerNetworkError(error, dispatch)
+        }
     }
 }
+export const followUser = (userId: number) => async (dispatch: Dispatch<ActionAT>) => {
+    await followUnfollowFlow(dispatch, userId, followAPI.setUnfollow.bind(followAPI), unfollow)
+}
 
-export const unfollowUser = (userId: number) => {
-    return (dispatch: Dispatch<ActionAT>) => {
-        dispatch(toggleFollowingProgress(true, userId))
-        followAPI.setFollow(userId).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(follow(userId))
-            }
-            dispatch(toggleFollowingProgress(false, userId))
-        });
-    }
+export const unfollowUser = (userId: number) => async (dispatch: Dispatch<ActionAT>) => {
+    await followUnfollowFlow(dispatch, userId, followAPI.setFollow.bind(followAPI), follow)
 }
 
 //types
@@ -122,6 +129,7 @@ export type UserType = {
         country: string
     }
 }
+export type InitialStateType = typeof initialState
 export type ActionAT = ReturnType<typeof follow>
     | ReturnType<typeof unfollow>
     | ReturnType<typeof setUsers>
@@ -129,5 +137,6 @@ export type ActionAT = ReturnType<typeof follow>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleFollowingProgress>
+    | SetErrorAT
 
 export default usersReducer;

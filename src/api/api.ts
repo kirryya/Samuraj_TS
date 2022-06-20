@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, {AxiosResponse} from "axios";
 
 const instance = axios.create({
     withCredentials: true,
@@ -17,10 +17,10 @@ export const usersAPI = {
 
 export const followAPI = {
     setUnfollow(userId: number) {
-        return instance.delete(`follow/${userId}`)
+        return instance.delete<{ userId: number }, AxiosResponse<ResponseType>>(`follow/${userId}`)
     },
     setFollow(userId: number) {
-        return instance.post(`follow/${userId}`)
+        return instance.post<{ userId: number }, AxiosResponse<ResponseType>>(`follow/${userId}`)
     }
 }
 
@@ -28,10 +28,10 @@ export const authAPI = {
     getAuth() {
         return instance.get(`auth/me`)
     },
-    login (data: LoginParamsType) {
+    login(data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', data)
     },
-    logout () {
+    logout() {
         return instance.delete<ResponseType>('auth/login')
     }
 }
@@ -64,8 +64,4 @@ export type ResponseType<D = {}> = {
     fieldsErrors: Array<string>
     data: D
 }
-export type MeResponseType = {
-    id: number
-    email: string
-    login: string
-}
+
