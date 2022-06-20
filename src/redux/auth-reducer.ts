@@ -1,6 +1,6 @@
-import {Dispatch} from "redux";
-import {authAPI, LoginParamsType} from "../api/api";
-import {handleServerAppError, handleServerNetworkError} from "../components/common/Error-utils/error-utils";
+import {Dispatch} from 'redux';
+import {authAPI, LoginParamsType} from '../api/api';
+import {handleServerAppError, handleServerNetworkError} from '../components/common/Error-utils/error-utils';
 
 let initialState = {
     data: {
@@ -16,9 +16,9 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
     switch (action.type) {
         case 'AUTH/SET_USER_DATA':
             return {...state, ...action.data}
-        case 'AUTH/SET-IS-LOGGED-IN':
+        case 'AUTH/SET_IS_LOGGED_IN':
             return {...state, isAuth: action.value}
-        case 'AUTH/SET-ERROR':
+        case 'AUTH/SET_ERROR':
             return {...state, error: action.error}
         default:
             return state
@@ -27,15 +27,15 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
 
 // actions
 export const setAuthUserData = (data: DataType) => ({
-    type: "AUTH/SET_USER_DATA",
+    type: 'AUTH/SET_USER_DATA',
     data
 } as const)
 export const setIsLoggedInAC = (value: boolean) => ({
-    type: 'AUTH/SET-IS-LOGGED-IN',
+    type: 'AUTH/SET_IS_LOGGED_IN',
     value
 } as const)
 export const setErrorAC = (error: string | null) => ({
-    type: 'AUTH/SET-ERROR', error
+    type: 'AUTH/SET_ERROR', error
 } as const)
 
 //thunks

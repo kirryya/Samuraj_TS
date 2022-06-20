@@ -1,8 +1,8 @@
-import {handleServerNetworkError} from "../components/common/Error-utils/error-utils";
-import {getAuthUserData} from "./auth-reducer";
-import {AppStateType} from "./redux-store";
-import {AnyAction} from "redux";
-import {ThunkAction} from "redux-thunk";
+import {handleServerNetworkError} from '../components/common/Error-utils/error-utils';
+import {getAuthUserData} from './auth-reducer';
+import {AppStateType} from './redux-store';
+import {AnyAction} from 'redux';
+import {ThunkAction} from 'redux-thunk';
 
 
 let initialState = {
@@ -31,14 +31,15 @@ export const setErrorAC = (error: string | null) => ({
 
 //thunks
 export const initializeAppTC = (): ThunkAction<void, AppStateType, unknown, AnyAction> =>
-    (dispatch) => {
-        dispatch(getAuthUserData())
-            .then(() => {
-                dispatch(initializedSuccessAC())
-            })
-            .catch((error) => {
+    async (dispatch) => {
+        await dispatch(getAuthUserData())
+        try {
+            dispatch(initializedSuccessAC())
+        } catch (error) {
+            if (error instanceof Error) {
                 handleServerNetworkError(error, dispatch)
-            })
+            }
+        }
     }
 
 // types

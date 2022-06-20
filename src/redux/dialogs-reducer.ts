@@ -4,7 +4,7 @@ let initialState = {
     dialogs: [
         {id: 1, name: "Dimych"},
         {id: 2, name: "Andrei"},
-        {id: 3, name: "Sveta"},
+        {id: 3, name: "Svetlana"},
         {id: 4, name: "Sasha"},
         {id: 5, name: "Masha"},
         {id: 6, name: "Valera"}
@@ -20,20 +20,15 @@ let initialState = {
 
 const dialogsReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
-        case 'SEND-MESSAGE':
-            return {
-                ...state,
-                messages: [...state.messages,
-                    {id: 7, message: action.newMessageText}
-                ]
-            }
+        case 'DIALOGS/SEND-MESSAGE':
+            return {...state, messages: [...state.messages,{id: 7, message: action.newMessageText}]}
         default:
             return state
     }
 }
 
 export const sendMessageAC = (newMessageText: string) => ({
-    type: "SEND-MESSAGE",
+    type: "DIALOGS/SEND-MESSAGE",
     newMessageText: newMessageText
 } as const)
 

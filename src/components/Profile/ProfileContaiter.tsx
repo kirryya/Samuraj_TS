@@ -1,5 +1,5 @@
 import React, {ComponentType} from 'react';
-import Profile, {ProfilePropsType} from "./Profile";
+import Profile, {ProfilePropsType, ProfileType} from "./Profile";
 import {connect} from 'react-redux';
 import {AppStateType} from "../../redux/redux-store";
 import {getStatus, getUserProfile, updateStatus} from "../../redux/profile-reducer";
@@ -8,7 +8,7 @@ import {compose} from "redux";
 import {withRouter} from '../../hoc/WithRouter';
 
 type mapStateToPropsType = {
-    profile: ProfilePropsType | null
+    profile: ProfileType | null
     status: string
     authorizedUserId: number | null
     isAuth: boolean
