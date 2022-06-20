@@ -25,6 +25,8 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, profile: action.profile}
         case "SET_STATUS":
             return {...state, status: action.status}
+        case "DELETE-POST":
+            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
         default:
             return state
     }
@@ -45,6 +47,11 @@ export const setStatus = (status: string): SetStatusAT => ({
     type: 'SET_STATUS',
     status: status
 })
+
+export const deletePostAC = (postId: number) => ({
+    type: 'DELETE-POST',
+    postId
+} as const)
 
 // thunks
 export const getUserProfile = (userId: number) => (dispatch: Dispatch<ActionAT>) => {
@@ -86,5 +93,6 @@ export type SetStatusAT = {
 export type ActionAT = AddPostAT
     | SetUserProfileAT
     | SetStatusAT
+    | ReturnType<typeof deletePostAC>
 
 export default profileReducer;

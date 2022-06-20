@@ -1,4 +1,4 @@
-import profileReducer, {addPostAC} from "./profile-reducer";
+import profileReducer, {addPostAC, deletePostAC} from "./profile-reducer";
 import {PostsType} from "../components/Profile/MyPosts/MyPosts";
 
 let state = {
@@ -20,5 +20,11 @@ it("message of new post should be correct", () => {
     let action = addPostAC("New post")
     let newState = profileReducer(state, action)
     expect(newState.posts[2].message).toBe("New post")
+})
+
+it("after deleting length of posts should be decremented", () => {
+    let action = deletePostAC(1)
+    let newState = profileReducer(state, action)
+    expect(newState.posts.length).toBe(1)
 })
 
