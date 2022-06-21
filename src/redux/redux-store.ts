@@ -1,4 +1,4 @@
-import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, createStore, compose} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import usersReducer from "./users-reducer";
@@ -19,7 +19,8 @@ export type AppStateType = ReturnType<typeof reducers>
 export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, AnyAction>>()
 export type ThunkType = ThunkAction<void, AppStateType, unknown, AnyAction >
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware))
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 export default store
 
