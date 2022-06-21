@@ -1,9 +1,9 @@
-import {followAPI, ResponseType, usersAPI} from '../api/api';
+import {followAPI, usersAPI} from '../api/api';
 import {Dispatch} from 'redux';
 import {handleServerNetworkError} from '../components/common/Error-utils/error-utils';
 import {SetErrorAT} from './auth-reducer';
-import {AxiosResponse} from "axios";
 import {updateObjectInArray} from "../utils/object-helpers";
+import {followUnfollowFlow} from "../utils/followUnfollowFlow";
 
 let initialState = {
     users: [] as UserType[],
@@ -17,9 +17,9 @@ let initialState = {
 const usersReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'USERS/FOLLOW':
-            return {...state, users: updateObjectInArray(state, action.userId, "id",{followed: true})}
+            return {...state, users: updateObjectInArray(state, action.userId, "id", {followed: true})}
         case 'USERS/UNFOLLOW':
-            return {...state, users: updateObjectInArray(state, action.userId, "id",{followed: false})}
+            return {...state, users: updateObjectInArray(state, action.userId, "id", {followed: false})}
         case 'USERS/SET_USERS':
             return {...state, users: action.users}
         case 'USERS/SET_CURRENT_PAGE':
@@ -84,25 +84,6 @@ export const requestUsers = (currentPage: number, pageSize: number) => async (di
     }
 }
 
-const followUnfollowFlow = async (
-    dispatch: Dispatch<ActionAT>,
-    userId: number,
-    apiMethod: (userId: number) => Promise<AxiosResponse<ResponseType>>,
-    actionCreator: (userId: number) => ActionAT
-) => {
-    dispatch(toggleFollowingProgress(true, userId))
-    try {
-        let response = await apiMethod(userId)
-        if (response.data.resultCode === 0) {
-            dispatch(actionCreator(userId))
-        }
-        dispatch(toggleFollowingProgress(false, userId))
-    } catch (error) {
-        if (error instanceof Error) {
-            handleServerNetworkError(error, dispatch)
-        }
-    }
-}
 export const followUser = (userId: number) => async (dispatch: Dispatch<ActionAT>) => {
     await followUnfollowFlow(dispatch, userId, followAPI.setUnfollow.bind(followAPI), unfollow)
 }
