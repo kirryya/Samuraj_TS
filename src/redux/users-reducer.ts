@@ -3,6 +3,7 @@ import {Dispatch} from 'redux';
 import {handleServerNetworkError} from '../components/common/Error-utils/error-utils';
 import {SetErrorAT} from './auth-reducer';
 import {AxiosResponse} from "axios";
+import {updateObjectInArray} from "../utils/object-helpers";
 
 let initialState = {
     users: [] as UserType[],
@@ -16,13 +17,9 @@ let initialState = {
 const usersReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
     switch (action.type) {
         case 'USERS/FOLLOW':
-            return {
-                ...state, users: state.users.map(u => u.id === action.userId ? ({...u, followed: true}) : u)
-            }
+            return {...state, users: updateObjectInArray(state, action.userId, "id",{followed: true})}
         case 'USERS/UNFOLLOW':
-            return {
-                ...state, users: state.users.map(u => u.id === action.userId ? ({...u, followed: false}) : u)
-            }
+            return {...state, users: updateObjectInArray(state, action.userId, "id",{followed: false})}
         case 'USERS/SET_USERS':
             return {...state, users: action.users}
         case 'USERS/SET_CURRENT_PAGE':
