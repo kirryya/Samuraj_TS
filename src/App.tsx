@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
-import {Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContaiter";
@@ -12,8 +12,8 @@ import {Music} from "./components/Music/News";
 import {Settings} from "./components/Settings/News";
 import {ErrorSnackbar} from "./components/common/Error-utils/ErrorSnackBar";
 import {initializeAppTC} from "./redux/app-reducer";
-import {useSelector} from "react-redux";
-import {AppStateType, useAppDispatch} from "./redux/redux-store";
+import {Provider, useSelector} from "react-redux";
+import store, {AppStateType, useAppDispatch} from "./redux/redux-store";
 import Preloader from "./components/common/Preloader/Preloader";
 
 
@@ -35,7 +35,7 @@ const App = () => {
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path="/profile" element={<ProfileContainer />}>
+                    <Route path="/profile" element={<ProfileContainer/>}>
                         <Route path={":userID"} element={<ProfileContainer/>}/>
                     </Route>
                     <Route path="/dialogs/*" element={<DialogsContainer/>}/>
@@ -50,6 +50,14 @@ const App = () => {
     );
 }
 
-export default App
+const SamurajJSApp = () => {
+    return  <BrowserRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </BrowserRouter>
+}
+
+export default SamurajJSApp
 
 
