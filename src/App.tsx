@@ -51,11 +51,13 @@ const App = () => {
 }
 
 const SamurajJSApp = () => {
-    return  <BrowserRouter>
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    </BrowserRouter>
+    return (
+        <BrowserRouter>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </BrowserRouter>
+    )
 }
 
 export default SamurajJSApp
