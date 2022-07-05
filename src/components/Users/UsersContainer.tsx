@@ -17,7 +17,7 @@ import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
-    getPageSize,
+    getPageSize, getPortionSize,
     getTotalUsersCount,
     getUsers
 } from "../../redux/users-selectors";
@@ -29,6 +29,7 @@ type mapStateToPropsType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
+    portionSize: number
 }
 
 type UsersAPIComponentPropsType = {
@@ -44,6 +45,7 @@ type UsersAPIComponentPropsType = {
     getUsers: (currentPage: number, pageSize: number) => void
     followUser: (userId: number) => void
     unfollowUser: (userId: number) => void
+    portionSize: number
 }
 
 class UsersAPIComponent extends React.Component<UsersAPIComponentPropsType, UsersAPIComponentPropsType> {
@@ -73,6 +75,7 @@ class UsersAPIComponent extends React.Component<UsersAPIComponentPropsType, User
                 followingInProgress={this.props.followingInProgress}
                 followUser={this.props.followUser}
                 unfollowUser={this.props.unfollowUser}
+                portionSize={this.props.portionSize}
             />
         </>
     }
@@ -85,7 +88,8 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
-        followingInProgress: getFollowingInProgress(state)
+        followingInProgress: getFollowingInProgress(state),
+        portionSize: getPortionSize(state)
     }
 }
 

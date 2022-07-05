@@ -14,6 +14,7 @@ type UsersPropsType = {
     followingInProgress: Array<number>
     followUser: (userId: number) => void
     unfollowUser: (userId: number) => void
+    portionSize: number
 }
 
 const Users = (props: UsersPropsType) => {
@@ -24,6 +25,7 @@ const Users = (props: UsersPropsType) => {
                 pageSize={props.pageSize}
                 currentPage={props.currentPage}
                 onPageChanged={props.onPageChanged}
+                portionSize={props.portionSize}
             />
             <div>
                 {
