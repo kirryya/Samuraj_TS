@@ -1,7 +1,7 @@
 import React from 'react';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 import {loginTC} from "../../redux/auth-reducer";
 import {Navigate} from 'react-router-dom';
 import {AppStateType} from "../../redux/redux-store";
@@ -53,6 +53,16 @@ export const Login = () => {
             <Grid container justifyContent={'center'}>
                 <Grid item justifyContent={'center'}>
                     <form onSubmit={formik.handleSubmit}>
+                        <FormLabel>
+                            <p>To log in get registered
+                                <a href={'https://social-network.samuraijs.com/'}
+                                   target={'_blank'}> here
+                                </a>
+                            </p>
+                            <p>or use common test account credentials:</p>
+                            <p>Email: free@samuraijs.com</p>
+                            <p>Password: free</p>
+                        </FormLabel>
                         <FormGroup>
                             <TextField label="Email"
                                        margin="normal"
@@ -75,7 +85,7 @@ export const Login = () => {
                                                   {...formik.getFieldProps('rememberMe')}
                                               />}
                             />
-                            <Button type={'submit'} variant={'contained'} color={'primary'}>
+                            <Button type={'submit'} variant={'contained'} color={'primary'} style={{marginBottom: "20px"}}>
                                 Login
                             </Button>
                         </FormGroup>
