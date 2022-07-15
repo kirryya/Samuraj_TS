@@ -3,6 +3,7 @@ import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import {ProfilePropsType} from "../Profile";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
+import userPhoto from "../../../assets/images/user.png"
 
 type ProfileInfoPropsType = ProfilePropsType
 
@@ -20,7 +21,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                      className={s.wallpaper}/>
             </div>
             <div className={s.descriptionBlock}>
-                <img src={props.profile.photos.large} alt="Avatar"/>
+                <img src={props.profile.photos.large || userPhoto} alt="Avatar" className={s.userPhoto}/>
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
                 <div>Полное имя: {props.profile.fullName}</div>
                 <div>Про меня: {props.profile.aboutMe}</div>

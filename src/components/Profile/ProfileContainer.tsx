@@ -1,5 +1,5 @@
 import React, {ComponentType} from 'react';
-import Profile, {ProfilePropsType, ProfileType} from "./Profile";
+import Profile, {ProfileType} from "./Profile";
 import {connect} from 'react-redux';
 import {AppStateType} from "../../redux/redux-store";
 import {getStatus, getUserProfile, updateStatus} from "../../redux/profile-reducer";
@@ -14,19 +14,28 @@ type mapStateToPropsType = {
     isAuth: boolean
 }
 
-class ProfileContainer extends React.Component<any, ProfilePropsType> {
+class ProfileContainer extends React.Component<any, ProfileType> {
 
-    componentDidMount() {
-        let userID: number = this.props.router.params.userID;
+    refreshProfile () {
+        let userID: number | undefined = this.props.router.params.userID;
         if (!userID) {
-            userID = 23120/*this.props.authorizedUserId*/
-            /*if (!userID) {
+            userID = this.props.authorizedUserId
+            if (!userID) {
                 userID = this.props.history.push("/login")
-            }*/
+            }
         }
         this.props.getUserProfile(userID);
         this.props.getStatus(userID)
     }
+
+    componentDidMount() {
+       this.refreshProfile()
+    }
+
+     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<ProfileType>, snapshot?: any) {
+         if(this.props.router.params.userID != prevProps.router.params.userID)
+         this.refreshProfile()
+     }
 
     render() {
         return (
@@ -44,7 +53,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
-        authorizedUserId: state.auth.data.userId,
+        authorizedUserId: state.auth.data.id,
         isAuth: state.auth.isAuth
     }
 }

@@ -4,7 +4,7 @@ import {handleServerAppError, handleServerNetworkError} from '../components/comm
 
 let initialState = {
     data: {
-        userId: null,
+        id: null,
         email: null,
         login: null
     },
@@ -93,7 +93,7 @@ export const logoutTC = () => async (dispatch: Dispatch<ActionAT>) => {
 // types
 export type InitialStateType = {
     data: {
-        userId: null | number,
+        id: null | number,
         email: null | string,
         login: null | string
     },
