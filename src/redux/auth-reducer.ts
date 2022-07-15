@@ -75,7 +75,7 @@ export const logoutTC = () => async (dispatch: Dispatch<ActionAT>) => {
         let res = await authAPI.logout()
         if (res.data.resultCode === 0) {
             dispatch(setAuthUserData({
-                userId: null,
+                id: null,
                 email: null,
                 login: null
             }))
@@ -107,7 +107,7 @@ export type ActionAT = ReturnType<typeof setIsLoggedInAC>
     | SetErrorAT
 
 export type DataType = {
-    userId: number | null,
+    id: number | null,
     email: string | null,
     login: string | null
 }
