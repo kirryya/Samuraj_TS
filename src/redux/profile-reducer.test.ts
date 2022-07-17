@@ -7,7 +7,7 @@ let state = {
         {id: 2, message: "It is my first post", likeCount: 30}
     ] as Array<PostsType>,
     profile: null,
-    status: ""
+    status: "",
 }
 
 it("length of posts should be incremented", () => {

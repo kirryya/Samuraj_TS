@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import {ProfilePropsType} from "../Profile";
@@ -13,6 +13,13 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
         return <Preloader/>
     }
 
+    const onChangeAvatar = (e:ChangeEvent<HTMLInputElement>) => {
+        if(e.currentTarget.files && e.currentTarget.files.length) {
+            props.savePhoto(e.currentTarget.files[0])
+        }
+
+    }
+
     return (
         <div>
             <div>
@@ -22,6 +29,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
             <div className={s.descriptionBlock}>
                 <img src={props.profile.photos.large || userPhoto} alt="Avatar" className={s.userPhoto}/>
+                <div>{props.isOwner && <input type={"file"} onChange={onChangeAvatar}/>}</div>
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
                 <div>Полное имя: {props.profile.fullName}</div>
                 <div>Про меня: {props.profile.aboutMe}</div>

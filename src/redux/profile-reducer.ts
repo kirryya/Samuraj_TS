@@ -1,7 +1,7 @@
 import {PostsType} from "../components/Profile/MyPosts/MyPosts";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
-import {ProfileType} from "../components/Profile/Profile";
+import {PhotosType, ProfileType} from "../components/Profile/Profile";
 import {handleServerNetworkError} from "../components/common/Error-utils/error-utils";
 import {SetErrorAT} from "./auth-reducer";
 
@@ -11,7 +11,7 @@ let initialState = {
         {id: 2, message: "It is my first post", likeCount: 30}
     ] as Array<PostsType>,
     profile: null as ProfileType | null,
-    status: ""
+    status: "",
 }
 type InitialStateType = typeof initialState
 
@@ -25,6 +25,8 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, status: action.status}
         case 'PROFILE/DELETE-POST':
             return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
+        case 'PROFILE/SET_AVATAR':
+            return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
         default:
             return state
     }
@@ -46,6 +48,11 @@ export const setStatus = (status: string) => ({
 export const deletePostAC = (postId: number) => ({
     type: 'PROFILE/DELETE-POST',
     postId
+} as const)
+
+export const setAvatar = (photos: PhotosType) => ({
+    type: 'PROFILE/SET_AVATAR',
+    photos
 } as const)
 
 // thunks
@@ -81,11 +88,26 @@ export const updateStatus = (status: string) => async (dispatch: Dispatch<Action
     }
 }
 
+export const savePhoto = (photo: string) => async (dispatch: Dispatch<ActionAT>) => {
+    try {
+        let response = await profileAPI.savePhoto(photo)
+        if (response.data.resultCode === 0)
+            dispatch(setAvatar(response.data.data.photos));
+
+    } catch (error) {
+        if (error instanceof Error) {
+            handleServerNetworkError(error, dispatch)
+        }
+    }
+
+}
+
 //types
 export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof deletePostAC>
+    | ReturnType<typeof setAvatar>
     | SetErrorAT
 
 export default profileReducer;
