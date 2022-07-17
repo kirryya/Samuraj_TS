@@ -1,4 +1,5 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
+import style from './ProfileStatusWithHooks.module.css'
 
 type ProfilePropsType = {
     status: string
@@ -27,16 +28,24 @@ export const ProfileStatusWithHooks = (props: ProfilePropsType) => {
         setStatus(e.currentTarget.value)
     }
 
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            deactivateEditMode()
+        }
+    }
+
     return (
-        <div>
+        <div className={style.main}>
+            <span><b>Status:</b></span>
             {!editMode &&
                 <div>
-                    <span onDoubleClick={activateEditMode}>{props.status || "------"}</span>
+                    <span onDoubleClick={activateEditMode} className={style.status}>{props.status || "------"} </span>
                 </div>
             }
             {editMode &&
                 <div>
                     <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
+                           onKeyPress={onKeyPressHandler}
                            value={status}/>
                 </div>
             }

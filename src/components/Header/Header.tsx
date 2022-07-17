@@ -16,7 +16,7 @@ const Header = (props: HeaderPropsType) => {
                 alt="Logo"/>
             <div className={s.loginBlock}>
                 {props.isAuth
-                    ? <div>
+                    ? <div className={s.isLogin}>
                         <div>Account name: {props.login}</div>
                         <button onClick={props.onClick}>Log Out</button>
                     </div>

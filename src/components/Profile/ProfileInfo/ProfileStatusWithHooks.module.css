@@ -1,0 +1,8 @@
+.main {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.status {
+    margin-left: 3px;
+}

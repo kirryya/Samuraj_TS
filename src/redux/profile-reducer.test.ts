@@ -8,6 +8,7 @@ let state = {
     ] as Array<PostsType>,
     profile: null,
     status: "",
+    isLoading: false,
 }
 
 it("length of posts should be incremented", () => {

@@ -6,19 +6,20 @@ export type PhotosType = {
     small: string | null,
     large: string | null,
 }
+export type ContactsType = {
+    facebook: string,
+    website: string,
+    vk: string,
+    twitter: string,
+    instagram: string,
+    youtube: string,
+    github: string,
+    mainLink: string
+}
 
 export type ProfileType = {
     aboutMe: string,
-    contacts: {
-        facebook: string,
-        website: string,
-        vk: string,
-        twitter: string,
-        instagram: string,
-        youtube: string,
-        github: string,
-        mainLink: string
-    },
+    contacts: ContactsType,
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
     fullName: string,
@@ -32,6 +33,7 @@ export type ProfilePropsType = {
     updateStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (photo: File) => void
+    isLoading: boolean
 }
 
 const Profile = (props: ProfilePropsType) => {
@@ -43,6 +45,7 @@ const Profile = (props: ProfilePropsType) => {
                 updateStatus={props.updateStatus}
                 isOwner={props.isOwner}
                 savePhoto={props.savePhoto}
+                isLoading={props.isLoading}
             />
             <MyPostsContainer/>
         </div>

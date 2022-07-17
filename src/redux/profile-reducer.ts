@@ -12,6 +12,7 @@ let initialState = {
     ] as Array<PostsType>,
     profile: null as ProfileType | null,
     status: "",
+    isLoading: false,
 }
 type InitialStateType = typeof initialState
 
@@ -27,6 +28,8 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
         case 'PROFILE/SET_AVATAR':
             return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
+        case 'PROFILE/SET_LOADING':
+            return {...state, isLoading: action.isLoading}
         default:
             return state
     }
@@ -55,6 +58,11 @@ export const setAvatar = (photos: PhotosType) => ({
     photos
 } as const)
 
+export const setLoading = (isLoading: boolean) => ({
+    type: 'PROFILE/SET_LOADING',
+    isLoading
+} as const)
+
 // thunks
 export const getUserProfile = (userId: number) => async (dispatch: Dispatch<ActionAT>) => {
     try {
@@ -78,6 +86,7 @@ export const getStatus = (userId: number) => async (dispatch: Dispatch<ActionAT>
 }
 export const updateStatus = (status: string) => async (dispatch: Dispatch<ActionAT>) => {
     try {
+        dispatch(setLoading(true))
         let response = await profileAPI.updateStatus(status)
         if (response.data.resultCode === 0)
             dispatch(setStatus(status));
@@ -85,21 +94,24 @@ export const updateStatus = (status: string) => async (dispatch: Dispatch<Action
         if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)
         }
+    } finally {
+        dispatch(setLoading(false))
     }
 }
 
 export const savePhoto = (photo: string) => async (dispatch: Dispatch<ActionAT>) => {
     try {
+        dispatch(setLoading(true))
         let response = await profileAPI.savePhoto(photo)
         if (response.data.resultCode === 0)
             dispatch(setAvatar(response.data.data.photos));
-
     } catch (error) {
         if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)
         }
+    } finally {
+        dispatch(setLoading(false))
     }
-
 }
 
 //types
@@ -108,6 +120,7 @@ export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof deletePostAC>
     | ReturnType<typeof setAvatar>
+    | ReturnType<typeof setLoading>
     | SetErrorAT
 
 export default profileReducer;
