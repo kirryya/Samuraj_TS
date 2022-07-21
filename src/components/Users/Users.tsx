@@ -2,6 +2,7 @@ import React from 'react';
 import {UserType} from "../../redux/users-reducer";
 import {Paginator} from "../common/Paginator/Paginator";
 import {User} from "./User";
+import style from "./Users.module.css"
 
 type UsersPropsType = {
     users: Array<UserType>
@@ -27,7 +28,7 @@ const Users = (props: UsersPropsType) => {
                 onPageChanged={props.onPageChanged}
                 portionSize={props.portionSize}
             />
-            <div>
+            <div className={style.user}>
                 {
                     props.users.map(u =>
                         <User key={u.id}

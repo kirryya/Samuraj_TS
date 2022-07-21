@@ -1,5 +1,23 @@
+.descriptionBlockContainer {
+    display: flex;
+    justify-content: center;
+}
+
 .descriptionBlock {
     padding: 10px;
+    width: 400px;
+    border: solid 1px black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.back {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
 }
 
 .wallpaper {
@@ -9,9 +27,10 @@
 }
 
 .userPhoto {
-    width: 180px;
-    height: 180px;
-    border-radius: 120px;
+    width: 210px;
+    height: 210px;
+    border-radius: 150px;
+    margin: 10px auto;
 }
 
 .loading {
