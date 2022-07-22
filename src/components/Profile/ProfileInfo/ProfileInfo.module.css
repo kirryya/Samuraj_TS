@@ -17,8 +17,8 @@
 
 .back {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 10px;
+    justify-content: center;
+    margin: 10px;
 }
 
 .wallpaper {

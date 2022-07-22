@@ -1,10 +1,11 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import {ContactsType, ProfilePropsType, ProfileType} from "../Profile";
-import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
-import userPhoto from "../../../assets/images/user.png"
 import {NavLink} from "react-router-dom";
+import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
+import userPhoto from '../../../assets/images/user.png'
+import { ProfileDataForm } from './ProfileDataForm';
 
 type ProfileInfoPropsType = ProfilePropsType
 type ProfileDataPropsType = {
@@ -17,6 +18,8 @@ type ProfileDataPropsType = {
 }
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
+
+    const [editMode, setEditMode] = useState<boolean>(false)
 
     if (!props.profile) {
         return <Preloader/>
@@ -31,17 +34,25 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
             {props.isLoading
                 ? <div className={s.loading}><Preloader/></div>
-                : <div>
-                    <NavLink to={'/users'}>
-                        <div className={s.back}>Back</div>
-                    </NavLink>
-                    <ProfileData profile={props.profile}
-                                 isOwner={props.isOwner}
-                                 status={props.status}
-                                 updateStatus={props.updateStatus}
-                                 savePhoto={props.savePhoto}
-                                 isLoading={props.isLoading}
-                    />
+                : <div >
+                    {!props.isOwner
+                        ? <NavLink to={'/users'}>
+                            <div className={s.back}>Back to Users</div>
+                        </NavLink>
+                        : <div className={s.back}>
+                            <button onClick={() => setEditMode(true)}>Edit Profile</button>
+                        </div>
+                    }
+                    {editMode
+                        ? <ProfileDataForm />
+                        : <ProfileData profile={props.profile}
+                                       isOwner={props.isOwner}
+                                       status={props.status}
+                                       updateStatus={props.updateStatus}
+                                       savePhoto={props.savePhoto}
+                                       isLoading={props.isLoading}
+                        />
+                    }
                 </div>
             }
         </div>
