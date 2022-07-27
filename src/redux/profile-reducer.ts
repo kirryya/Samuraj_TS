@@ -63,6 +63,11 @@ export const setLoading = (isLoading: boolean) => ({
     isLoading
 } as const)
 
+export const setInfo = (info: any) => ({
+    type: 'PROFILE/SET_INFO',
+    info
+} as const)
+
 // thunks
 export const getUserProfile = (userId: number) => async (dispatch: Dispatch<ActionAT>) => {
     try {
@@ -114,6 +119,21 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch<ActionAT>)
     }
 }
 
+export const updateProfile = (info: string) => async (dispatch: Dispatch<ActionAT>) => {
+    try {
+        dispatch(setLoading(true))
+        let response = await profileAPI.updateStatus(info)
+        if (response.data.resultCode === 0)
+            dispatch(setInfo(info));
+    } catch (error) {
+        if (error instanceof Error) {
+            handleServerNetworkError(error, dispatch)
+        }
+    } finally {
+        dispatch(setLoading(false))
+    }
+}
+
 //types
 export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfile>
@@ -121,6 +141,7 @@ export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof deletePostAC>
     | ReturnType<typeof setAvatar>
     | ReturnType<typeof setLoading>
+    | ReturnType<typeof setInfo>
     | SetErrorAT
 
 export default profileReducer;

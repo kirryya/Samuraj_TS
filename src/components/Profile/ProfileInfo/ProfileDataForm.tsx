@@ -1,4 +1,4 @@
-import s from "./ProfileInfo.module.css";
+import s from "./ProfileDataForm.module.css";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
@@ -7,7 +7,7 @@ import {AppStateType} from "../../../redux/redux-store";
 type FormikErrorType = {
     aboutMe?: string
     lookingForAJob?: string
-    }
+}
 
 export const ProfileDataForm = () => {
 
@@ -25,9 +25,6 @@ export const ProfileDataForm = () => {
             if (!values.aboutMe) {
                 errors.aboutMe = 'Must be';
             }
-            if (values.lookingForAJob === true) {
-                errors.lookingForAJob = 'Must be more than Yes or No';
-            }
             return errors;
         },
         onSubmit: values => {
@@ -37,8 +34,8 @@ export const ProfileDataForm = () => {
 
     return (
         <div className={s.descriptionBlockContainer}>
-            <div className={s.descriptionBlock}>
-                <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} className={s.descriptionBlock}>
+                <div>
                     <label htmlFor="aboutMe">aboutMe</label>
                     <input
                         id="aboutMe"
@@ -48,16 +45,14 @@ export const ProfileDataForm = () => {
                     {formik.touched.aboutMe && formik.errors.aboutMe ? (
                         <div>{formik.errors.aboutMe}</div>
                     ) : null}
-
+                </div>
+                <div>
                     <label htmlFor="lookingForAJob">lookingForAJob</label>
-                    <input id="lookingForAJob" type="text" {...formik.getFieldProps('lookingForAJob')} />
-                    {formik.touched.lookingForAJob && formik.errors.lookingForAJob ? (
-                        <div>{formik.errors.lookingForAJob}</div>
-                    ) : null}
+                    <input id="lookingForAJob" type="checkbox" {...formik.getFieldProps('lookingForAJob')} />
+                </div>
 
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
+                <button type="submit" className={s.back}>Submit</button>
+            </form>
         </div>
     )
 }

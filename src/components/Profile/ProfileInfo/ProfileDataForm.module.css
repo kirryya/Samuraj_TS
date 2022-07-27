@@ -1,0 +1,43 @@
+.descriptionBlockContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.descriptionBlock {
+    padding: 10px;
+    width: 400px;
+    border: solid 1px black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #3478d4;
+}
+
+.back {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.wallpaper {
+    height: 200px;
+    width: 1350px;
+    border-radius: 15px;
+}
+
+.userPhoto {
+    width: 210px;
+    height: 210px;
+    border-radius: 150px;
+    margin: 10px auto;
+}
+
+.loading {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.contact {
+    padding-left: 10px;
+}
