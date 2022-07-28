@@ -31,8 +31,7 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
         case 'PROFILE/SET_LOADING':
             return {...state, isLoading: action.isLoading}
         case 'PROFILE/SET_INFO':
-            // @ts-ignore
-            return {...state, profile: {...state.profile, lookingForAJob: action.info.LookingForAJob}}
+            return {...state, profile: {...state.profile, lookingForAJob: action.info.lookingForAJob} as ProfileType}
         default:
             return state
     }
