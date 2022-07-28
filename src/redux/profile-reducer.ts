@@ -30,6 +30,9 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
         case 'PROFILE/SET_LOADING':
             return {...state, isLoading: action.isLoading}
+        case 'PROFILE/SET_INFO':
+            // @ts-ignore
+            return {...state, profile: {...state.profile, lookingForAJob: action.info.LookingForAJob}}
         default:
             return state
     }
@@ -63,7 +66,7 @@ export const setLoading = (isLoading: boolean) => ({
     isLoading
 } as const)
 
-export const setInfo = (info: any) => ({
+export const setInfo = (info: ProfileType) => ({
     type: 'PROFILE/SET_INFO',
     info
 } as const)
@@ -119,10 +122,10 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch<ActionAT>)
     }
 }
 
-export const updateProfile = (info: string) => async (dispatch: Dispatch<ActionAT>) => {
+export const updateProfile = (info: ProfileType) => async (dispatch: Dispatch<ActionAT>) => {
     try {
         dispatch(setLoading(true))
-        let response = await profileAPI.updateStatus(info)
+        let response = await profileAPI.updateProfile(info)
         if (response.data.resultCode === 0)
             dispatch(setInfo(info));
     } catch (error) {
@@ -143,5 +146,10 @@ export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof setLoading>
     | ReturnType<typeof setInfo>
     | SetErrorAT
+
+export type updateProfileType = {
+    AboutMe?: string | undefined
+    LookingForAJob?: boolean | undefined
+}
 
 export default profileReducer;

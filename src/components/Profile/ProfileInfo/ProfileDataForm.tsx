@@ -3,6 +3,7 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {AppStateType} from "../../../redux/redux-store";
+import {updateProfile} from "../../../redux/profile-reducer";
 
 type FormikErrorType = {
     aboutMe?: string
@@ -28,7 +29,8 @@ export const ProfileDataForm = () => {
             return errors;
         },
         onSubmit: values => {
-            //dispatch(loginTC(values))
+            // @ts-ignore
+            dispatch(updateProfile(values))
         },
     })
 
