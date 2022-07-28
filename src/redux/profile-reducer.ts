@@ -146,9 +146,4 @@ export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof setInfo>
     | SetErrorAT
 
-export type updateProfileType = {
-    AboutMe?: string | undefined
-    LookingForAJob?: boolean | undefined
-}
-
 export default profileReducer;
