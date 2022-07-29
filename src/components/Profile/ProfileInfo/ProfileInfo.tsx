@@ -54,7 +54,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                     <div className={s.profile}>
                         <div className={s.profileAva}>
                             <img src={props.profile.photos.large || userPhoto} alt="Avatar" className={s.userPhoto}/>
-                            <div className={s.changeAvatar}>{props.isOwner &&
+                            <div className={s.changeAvatar}>Изменить аватар: {props.isOwner &&
                                 <input type={"file"} onChange={onChangeAvatar}/>}</div>
                         </div>
                         <div>{editMode
@@ -88,7 +88,7 @@ export const ProfileData = (props: ProfileDataPropsType) => {
                 <div><b>About me:</b> {props.profile.aboutMe}</div>
                 <div><b>Looking for a job:</b> {(props.profile.lookingForAJob) ? "Yes" : "No"} </div>
                 {props.profile.lookingForAJob &&
-                    <div><b>About a job:</b> {props.profile.lookingForAJobDescription}</div>}
+                    <div><b>My professionals skills:</b> {props.profile.lookingForAJobDescription}</div>}
                 <div>
                     <b>Contact: </b> {Object.keys(props.profile.contacts).map(key => {
                     return <Contact key={key}

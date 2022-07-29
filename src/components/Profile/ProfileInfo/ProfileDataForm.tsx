@@ -46,7 +46,7 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
         <div className={s.descriptionBlockContainer}>
             <form onSubmit={formik.handleSubmit} className={s.descriptionBlock}>
                 <div>
-                    <label htmlFor="fullName">fullName</label>
+                    <label htmlFor="fullName">fullName: </label>
                     <input
                         id="fullName"
                         type="text"
@@ -54,7 +54,7 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="aboutMe">aboutMe</label>
+                    <label htmlFor="aboutMe">aboutMe: </label>
                     <input
                         id="aboutMe"
                         type="text"
@@ -62,18 +62,21 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="lookingForAJob">lookingForAJob</label>
-                    <input id="lookingForAJob" type="checkbox" {...formik.getFieldProps('lookingForAJob')} />
+                    <label htmlFor="lookingForAJob">lookingForAJob: </label>
+                    <input
+                        id="lookingForAJob"
+                        type="checkbox"
+                        {...formik.getFieldProps('lookingForAJob')} />
                 </div>
                 <div>
-                    <label htmlFor="lookingForAJobDescription">lookingForAJobDescription</label>
+                    <label htmlFor="lookingForAJobDescription">My professionals skills: </label>
                     <input
                         id="lookingForAJobDescription"
                         type="text"
                         {...formik.getFieldProps('lookingForAJobDescription')}
                     />
                 </div>
-                <button type="submit" className={s.back}>Submit</button>
+                <button type="submit" className={s.save}>Save</button>
             </form>
         </div>
     )
