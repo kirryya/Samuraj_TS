@@ -5,9 +5,11 @@ import {ContactsType, ProfilePropsType, ProfileType} from "../Profile";
 import {NavLink} from "react-router-dom";
 import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
 import userPhoto from '../../../assets/images/user.png'
-import { ProfileDataForm } from './ProfileDataForm';
+import {ProfileDataForm, valuesProfileDataForm} from './ProfileDataForm';
 
-type ProfileInfoPropsType = ProfilePropsType
+type ProfileInfoPropsType = ProfilePropsType &
+    { updateProfile: (values: valuesProfileDataForm) => void }
+
 type ProfileDataPropsType = {
     profile: ProfileType
     status: string
@@ -25,6 +27,12 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
         return <Preloader/>
     }
 
+    const onChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.files && e.currentTarget.files.length) {
+            props.savePhoto(e.currentTarget.files[0])
+        }
+    }
+
     return (
         <div>
             <div>
@@ -34,7 +42,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
             {props.isLoading
                 ? <div className={s.loading}><Preloader/></div>
-                : <div >
+                : <div>
                     {!props.isOwner
                         ? <NavLink to={'/users'}>
                             <div className={s.back}>Back to Users</div>
@@ -43,16 +51,24 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                             <button onClick={() => setEditMode(true)}>Edit Profile</button>
                         </div>
                     }
-                    {editMode
-                        ? <ProfileDataForm />
-                        : <ProfileData profile={props.profile}
-                                       isOwner={props.isOwner}
-                                       status={props.status}
-                                       updateStatus={props.updateStatus}
-                                       savePhoto={props.savePhoto}
-                                       isLoading={props.isLoading}
-                        />
-                    }
+                    <div className={s.profile}>
+                        <div className={s.profileAva}>
+                            <img src={props.profile.photos.large || userPhoto} alt="Avatar" className={s.userPhoto}/>
+                            <div className={s.changeAvatar}>{props.isOwner &&
+                                <input type={"file"} onChange={onChangeAvatar}/>}</div>
+                        </div>
+                        <div>{editMode
+                            ? <ProfileDataForm updateProfile={props.updateProfile}/>
+                            : <ProfileData profile={props.profile}
+                                           isOwner={props.isOwner}
+                                           status={props.status}
+                                           updateStatus={props.updateStatus}
+                                           savePhoto={props.savePhoto}
+                                           isLoading={props.isLoading}
+                            />
+                        }
+                        </div>
+                    </div>
                 </div>
             }
         </div>
@@ -63,17 +79,10 @@ export default ProfileInfo;
 
 export const ProfileData = (props: ProfileDataPropsType) => {
 
-    const onChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.files && e.currentTarget.files.length) {
-            props.savePhoto(e.currentTarget.files[0])
-        }
-    }
 
     return (
         <div className={s.descriptionBlockContainer}>
             <div className={s.descriptionBlock}>
-                <img src={props.profile.photos.large || userPhoto} alt="Avatar" className={s.userPhoto}/>
-                <div>{props.isOwner && <input type={"file"} onChange={onChangeAvatar}/>}</div>
                 <div><b>Full name:</b> {props.profile.fullName}</div>
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
                 <div><b>About me:</b> {props.profile.aboutMe}</div>

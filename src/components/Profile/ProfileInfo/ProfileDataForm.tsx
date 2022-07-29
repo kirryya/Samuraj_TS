@@ -1,36 +1,44 @@
 import s from "./ProfileDataForm.module.css";
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
-import {AppStateType} from "../../../redux/redux-store";
-import {updateProfile} from "../../../redux/profile-reducer";
+import {useAppSelector} from "../../../redux/redux-store";
 
-type FormikErrorType = {
-    aboutMe?: string
-    lookingForAJob?: string
+type ProfileDataFormPropsType = {
+    updateProfile: (values: valuesProfileDataForm) => void
 }
 
-export const ProfileDataForm = () => {
+export type valuesProfileDataForm = {
+    aboutMe: string | undefined
+    lookingForAJob: boolean | undefined
+    fullName: string | undefined
+    lookingForAJobDescription: string | undefined
+    /*facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null*/
+}
 
-    const dispatch = useDispatch()
-    const aboutMe = useSelector<AppStateType, string | undefined>(state => state.profilePage.profile?.aboutMe)
-    const lookingForAJob = useSelector<AppStateType, boolean | undefined>(state => state.profilePage.profile?.lookingForAJob)
+export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
+
+
+    const aboutMe = useAppSelector(state => state.profilePage.profile?.aboutMe)
+    const lookingForAJob = useAppSelector(state => state.profilePage.profile?.lookingForAJob)
+    const fullName = useAppSelector(state => state.profilePage.profile?.fullName)
+    const lookingForAJobDescription = useAppSelector(state => state.profilePage.profile?.lookingForAJobDescription)
 
     const formik = useFormik({
         initialValues: {
             aboutMe: aboutMe,
             lookingForAJob: lookingForAJob,
-        },
-        validate: (values) => {
-            const errors: FormikErrorType = {};
-            if (!values.aboutMe) {
-                errors.aboutMe = 'Must be';
-            }
-            return errors;
+            fullName: fullName,
+            lookingForAJobDescription: lookingForAJobDescription
         },
         onSubmit: values => {
-            // @ts-ignore
-            dispatch(updateProfile(values))
+            props.updateProfile(values)
         },
     })
 
@@ -38,21 +46,33 @@ export const ProfileDataForm = () => {
         <div className={s.descriptionBlockContainer}>
             <form onSubmit={formik.handleSubmit} className={s.descriptionBlock}>
                 <div>
+                    <label htmlFor="fullName">fullName</label>
+                    <input
+                        id="fullName"
+                        type="text"
+                        {...formik.getFieldProps('fullName')}
+                    />
+                </div>
+                <div>
                     <label htmlFor="aboutMe">aboutMe</label>
                     <input
                         id="aboutMe"
                         type="text"
                         {...formik.getFieldProps('aboutMe')}
                     />
-                    {formik.touched.aboutMe && formik.errors.aboutMe ? (
-                        <div>{formik.errors.aboutMe}</div>
-                    ) : null}
                 </div>
                 <div>
                     <label htmlFor="lookingForAJob">lookingForAJob</label>
                     <input id="lookingForAJob" type="checkbox" {...formik.getFieldProps('lookingForAJob')} />
                 </div>
-
+                <div>
+                    <label htmlFor="lookingForAJobDescription">lookingForAJobDescription</label>
+                    <input
+                        id="lookingForAJobDescription"
+                        type="text"
+                        {...formik.getFieldProps('lookingForAJobDescription')}
+                    />
+                </div>
                 <button type="submit" className={s.back}>Submit</button>
             </form>
         </div>

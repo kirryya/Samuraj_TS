@@ -15,6 +15,24 @@
     background-color: #3478d4;
 }
 
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profileAva {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.changeAvatar {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
 .back {
     display: flex;
     justify-content: center;

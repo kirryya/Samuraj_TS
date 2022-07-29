@@ -30,9 +30,7 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
         case 'PROFILE/SET_LOADING':
             return {...state, isLoading: action.isLoading}
-        case 'PROFILE/SET_INFO':
-            return {...state, profile: {...state.profile, lookingForAJob: action.info.lookingForAJob} as ProfileType}
-        default:
+             default:
             return state
     }
 }
@@ -63,11 +61,6 @@ export const setAvatar = (photos: PhotosType) => ({
 export const setLoading = (isLoading: boolean) => ({
     type: 'PROFILE/SET_LOADING',
     isLoading
-} as const)
-
-export const setInfo = (info: ProfileType) => ({
-    type: 'PROFILE/SET_INFO',
-    info
 } as const)
 
 // thunks
@@ -121,12 +114,10 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch<ActionAT>)
     }
 }
 
-export const updateProfile = (info: ProfileType) => async (dispatch: Dispatch<ActionAT>) => {
+export const updateProfile = (profile: ProfileType) => async (dispatch: Dispatch<ActionAT>) => {
     try {
         dispatch(setLoading(true))
-        let response = await profileAPI.updateProfile(info)
-        if (response.data.resultCode === 0)
-            dispatch(setInfo(info));
+        await profileAPI.updateProfile(profile)
     } catch (error) {
         if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)
@@ -143,7 +134,6 @@ export type ActionAT = ReturnType<typeof addPostAC>
     | ReturnType<typeof deletePostAC>
     | ReturnType<typeof setAvatar>
     | ReturnType<typeof setLoading>
-    | ReturnType<typeof setInfo>
     | SetErrorAT
 
 export default profileReducer;

@@ -1,6 +1,7 @@
 import React from 'react';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {valuesProfileDataForm} from "./ProfileInfo/ProfileDataForm";
 
 export type PhotosType = {
     small: string | null,
@@ -18,9 +19,9 @@ export type ContactsType = {
 }
 
 export type ProfileType = {
-    aboutMe: string | undefined,
+    aboutMe: string,
     contacts: ContactsType,
-    lookingForAJob: boolean | undefined,
+    lookingForAJob: boolean,
     lookingForAJobDescription: string,
     fullName: string,
     userId: number,
@@ -34,6 +35,7 @@ export type ProfilePropsType = {
     isOwner: boolean
     savePhoto: (photo: File) => void
     isLoading: boolean
+    updateProfile: (profile: valuesProfileDataForm) => void
 }
 
 const Profile = (props: ProfilePropsType) => {
@@ -46,6 +48,7 @@ const Profile = (props: ProfilePropsType) => {
                 isOwner={props.isOwner}
                 savePhoto={props.savePhoto}
                 isLoading={props.isLoading}
+                updateProfile={props.updateProfile}
             />
             <MyPostsContainer/>
         </div>

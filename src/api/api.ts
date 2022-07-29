@@ -58,8 +58,8 @@ export const profileAPI = {
             }
         })
     },
-    updateProfile(info: ProfileType) {
-        return instance.put(`profile/`, {info})
+    updateProfile(profile: ProfileType) {
+        return instance.put(`profile`, profile)
     }
 }
 
