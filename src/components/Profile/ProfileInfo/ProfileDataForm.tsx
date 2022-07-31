@@ -2,6 +2,7 @@ import s from "./ProfileDataForm.module.css";
 import React from "react";
 import {useFormik} from "formik";
 import {useAppSelector} from "../../../redux/redux-store";
+import {ContactsType} from "../Profile";
 
 type ProfileDataFormPropsType = {
     updateProfile: (values: valuesProfileDataForm) => void
@@ -12,14 +13,7 @@ export type valuesProfileDataForm = {
     lookingForAJob: boolean | undefined
     fullName: string | undefined
     lookingForAJobDescription: string | undefined
-    /*facebook: string | null
-    website: string | null
-    vk: string | null
-    twitter: string | null
-    instagram: string | null
-    youtube: string | null
-    github: string | null
-    mainLink: string | null*/
+    contacts: ContactsType
 }
 
 export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
@@ -29,13 +23,34 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
     const lookingForAJob = useAppSelector(state => state.profilePage.profile?.lookingForAJob)
     const fullName = useAppSelector(state => state.profilePage.profile?.fullName)
     const lookingForAJobDescription = useAppSelector(state => state.profilePage.profile?.lookingForAJobDescription)
+        const {
+        facebook,
+        website,
+        vk,
+        twitter,
+        instagram,
+        youtube,
+        github,
+        mainLink
+        // @ts-ignore
+    } = useAppSelector(state => state.profilePage.profile.contacts)
 
     const formik = useFormik({
         initialValues: {
             aboutMe: aboutMe,
             lookingForAJob: lookingForAJob,
             fullName: fullName,
-            lookingForAJobDescription: lookingForAJobDescription
+            lookingForAJobDescription: lookingForAJobDescription,
+            contacts: {
+                facebook: facebook,
+                website: website,
+                vk: vk,
+                twitter: twitter,
+                instagram: instagram,
+                youtube: youtube,
+                github: github,
+                mainLink: mainLink
+            }
         },
         onSubmit: values => {
             props.updateProfile(values)
@@ -66,7 +81,8 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                     <input
                         id="lookingForAJob"
                         type="checkbox"
-                        {...formik.getFieldProps('lookingForAJob')} />
+                        {...formik.getFieldProps('lookingForAJob')}
+                    />
                 </div>
                 <div>
                     <label htmlFor="lookingForAJobDescription">My professionals skills: </label>
@@ -74,6 +90,14 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                         id="lookingForAJobDescription"
                         type="text"
                         {...formik.getFieldProps('lookingForAJobDescription')}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="facebook">facebook: </label>
+                    <input
+                        id="facebook"
+                        type="text"
+                        {...formik.getFieldProps('facebook')}
                     />
                 </div>
                 <button type="submit" className={s.save}>Save</button>
