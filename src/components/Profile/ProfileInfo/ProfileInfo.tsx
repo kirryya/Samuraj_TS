@@ -58,7 +58,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                                 <input type={"file"} onChange={onChangeAvatar}/>}</div>
                         </div>
                         <div>{editMode
-                            ? <ProfileDataForm updateProfile={props.updateProfile}/>
+                            ? <ProfileDataForm updateProfile={props.updateProfile} onChange={() => {setEditMode(false)}}/>
                             : <ProfileData profile={props.profile}
                                            isOwner={props.isOwner}
                                            status={props.status}

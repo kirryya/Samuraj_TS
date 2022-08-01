@@ -30,7 +30,7 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionAT
             return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
         case 'PROFILE/SET_LOADING':
             return {...state, isLoading: action.isLoading}
-             default:
+        default:
             return state
     }
 }
@@ -66,7 +66,7 @@ export const setLoading = (isLoading: boolean) => ({
 // thunks
 export const getUserProfile = (userId: number) => async (dispatch: Dispatch<ActionAT>) => {
     try {
-        let data = await profileAPI.getProfile(userId)
+        const data = await profileAPI.getProfile(userId)
         dispatch(setUserProfile(data));
     } catch (error) {
         if (error instanceof Error) {
@@ -114,10 +114,13 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch<ActionAT>)
     }
 }
 
-export const updateProfile = (profile: ProfileType) => async (dispatch: Dispatch<ActionAT>) => {
+export const updateProfile = (profile: ProfileType) => async (dispatch: any, getState: any) => {
     try {
+        const userId: number = getState().auth.data.id
         dispatch(setLoading(true))
-        await profileAPI.updateProfile(profile)
+        const response = await profileAPI.updateProfile(profile)
+        if (response.data.resultCode === 0)
+            dispatch(getUserProfile(userId))
     } catch (error) {
         if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)

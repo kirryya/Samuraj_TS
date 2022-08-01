@@ -2,10 +2,10 @@ import s from "./ProfileDataForm.module.css";
 import React from "react";
 import {useFormik} from "formik";
 import {useAppSelector} from "../../../redux/redux-store";
-import {ContactsType} from "../Profile";
 
 type ProfileDataFormPropsType = {
     updateProfile: (values: valuesProfileDataForm) => void
+    onChange: () => void
 }
 
 export type valuesProfileDataForm = {
@@ -13,7 +13,9 @@ export type valuesProfileDataForm = {
     lookingForAJob: boolean | undefined
     fullName: string | undefined
     lookingForAJobDescription: string | undefined
-    contacts: ContactsType
+    contacts: {
+        facebook: string | null
+    }
 }
 
 export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
@@ -23,17 +25,8 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
     const lookingForAJob = useAppSelector(state => state.profilePage.profile?.lookingForAJob)
     const fullName = useAppSelector(state => state.profilePage.profile?.fullName)
     const lookingForAJobDescription = useAppSelector(state => state.profilePage.profile?.lookingForAJobDescription)
-        const {
-        facebook,
-        website,
-        vk,
-        twitter,
-        instagram,
-        youtube,
-        github,
-        mainLink
-        // @ts-ignore
-    } = useAppSelector(state => state.profilePage.profile.contacts)
+    // @ts-ignore
+    const {contacts} = useAppSelector(state => state.profilePage.profile)
 
     const formik = useFormik({
         initialValues: {
@@ -42,18 +35,19 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             fullName: fullName,
             lookingForAJobDescription: lookingForAJobDescription,
             contacts: {
-                facebook: facebook,
-                website: website,
-                vk: vk,
-                twitter: twitter,
-                instagram: instagram,
-                youtube: youtube,
-                github: github,
-                mainLink: mainLink
+                facebook: contacts.facebook ? contacts.facebook : null,
+                /*  website: website,
+                  vk: vk,
+                  twitter: twitter,
+                  instagram: instagram,
+                  youtube: youtube,
+                  github: github,
+                  mainLink: mainLink*/
             }
         },
         onSubmit: values => {
             props.updateProfile(values)
+            props.onChange()
         },
     })
 
@@ -97,7 +91,7 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                     <input
                         id="facebook"
                         type="text"
-                        {...formik.getFieldProps('facebook')}
+                        {...formik.getFieldProps('contacts.facebook')}
                     />
                 </div>
                 <button type="submit" className={s.save}>Save</button>
