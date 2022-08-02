@@ -7,7 +7,6 @@ type ProfileDataFormPropsType = {
     updateProfile: (values: valuesProfileDataForm) => void
     onChange: () => void
     profile: ProfileType
-    error: string | null
 }
 
 export type valuesProfileDataForm = {
@@ -105,7 +104,6 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                 }
                 </div>
                 <button type="submit" className={s.save}>Save</button>
-                {props.error ? props.error : ""}
             </form>
         </div>
     )

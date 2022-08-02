@@ -10,7 +10,6 @@ import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 type ProfileInfoPropsType = ProfilePropsType &
     {
         updateProfile: (values: valuesProfileDataForm) => void
-        error: string | null
     }
 
 type ProfileDataPropsType = {
@@ -20,6 +19,7 @@ type ProfileDataPropsType = {
     isOwner: boolean
     savePhoto: (photo: File) => void
     isLoading: boolean
+    error: string | null
 }
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
@@ -64,12 +64,9 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                             ? <ProfileDataForm
                                 updateProfile={props.updateProfile}
                                 onChange={() => {
-                                    !props.error
-                                        ? setEditMode(true)
-                                        : setEditMode(false)
+                                    setEditMode(false)
                                 }}
                                 profile={props.profile}
-                                error={props.error}
                             />
                             : <ProfileData profile={props.profile}
                                            isOwner={props.isOwner}
@@ -77,6 +74,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                                            updateStatus={props.updateStatus}
                                            savePhoto={props.savePhoto}
                                            isLoading={props.isLoading}
+                                           error={props.error}
                             />
                         }
                         </div>
@@ -108,6 +106,9 @@ export const ProfileData = (props: ProfileDataPropsType) => {
                     />
                 })
                 }
+                </div>
+                <div style={{color: "red"}}>
+                    {props.error && props.error}
                 </div>
             </div>
         </div>
