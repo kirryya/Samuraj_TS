@@ -36,6 +36,7 @@ export type ProfilePropsType = {
     savePhoto: (photo: File) => void
     isLoading: boolean
     updateProfile: (profile: valuesProfileDataForm) => void
+    error: string | null
 }
 
 const Profile = (props: ProfilePropsType) => {
@@ -49,6 +50,7 @@ const Profile = (props: ProfilePropsType) => {
                 savePhoto={props.savePhoto}
                 isLoading={props.isLoading}
                 updateProfile={props.updateProfile}
+                error={props.error}
             />
             <MyPostsContainer/>
         </div>

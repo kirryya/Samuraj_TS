@@ -4,6 +4,7 @@ import {profileAPI} from "../api/api";
 import {PhotosType, ProfileType} from "../components/Profile/Profile";
 import {handleServerNetworkError} from "../components/common/Error-utils/error-utils";
 import {SetErrorAT} from "./auth-reducer";
+import {setErrorAC} from "./app-reducer";
 
 let initialState = {
     posts: [
@@ -119,8 +120,11 @@ export const updateProfile = (profile: ProfileType) => async (dispatch: any, get
         const userId: number = getState().auth.data.id
         dispatch(setLoading(true))
         const response = await profileAPI.updateProfile(profile)
-        if (response.data.resultCode === 0)
+        if (response.data.resultCode === 0) {
             dispatch(getUserProfile(userId))
+        } else {
+            dispatch(setErrorAC(response.data.messages[0]))
+        }
     } catch (error) {
         if (error instanceof Error) {
             handleServerNetworkError(error, dispatch)

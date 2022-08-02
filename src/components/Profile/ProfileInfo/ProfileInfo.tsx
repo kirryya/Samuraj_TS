@@ -3,12 +3,15 @@ import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import {ContactsType, ProfilePropsType, ProfileType} from "../Profile";
 import {NavLink} from "react-router-dom";
-import {ProfileStatusWithHooks} from './ProfileStatusWithHooks';
 import userPhoto from '../../../assets/images/user.png'
 import {ProfileDataForm, valuesProfileDataForm} from './ProfileDataForm';
+import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 
 type ProfileInfoPropsType = ProfilePropsType &
-    { updateProfile: (values: valuesProfileDataForm) => void }
+    {
+        updateProfile: (values: valuesProfileDataForm) => void
+        error: string | null
+    }
 
 type ProfileDataPropsType = {
     profile: ProfileType
@@ -54,11 +57,20 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                     <div className={s.profile}>
                         <div className={s.profileAva}>
                             <img src={props.profile.photos.large || userPhoto} alt="Avatar" className={s.userPhoto}/>
-                            <div className={s.changeAvatar}>Изменить аватар: {props.isOwner &&
+                            <div className={s.changeAvatar}><b>Change Avatar: </b>{props.isOwner &&
                                 <input type={"file"} onChange={onChangeAvatar}/>}</div>
                         </div>
                         <div>{editMode
-                            ? <ProfileDataForm updateProfile={props.updateProfile} onChange={() => {setEditMode(false)}}/>
+                            ? <ProfileDataForm
+                                updateProfile={props.updateProfile}
+                                onChange={() => {
+                                    !props.error
+                                        ? setEditMode(true)
+                                        : setEditMode(false)
+                                }}
+                                profile={props.profile}
+                                error={props.error}
+                            />
                             : <ProfileData profile={props.profile}
                                            isOwner={props.isOwner}
                                            status={props.status}
@@ -78,7 +90,6 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 export default ProfileInfo;
 
 export const ProfileData = (props: ProfileDataPropsType) => {
-
 
     return (
         <div className={s.descriptionBlockContainer}>

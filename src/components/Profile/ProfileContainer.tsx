@@ -13,6 +13,7 @@ type mapStateToPropsType = {
     authorizedUserId: number | null
     isAuth: boolean
     isLoading: boolean
+    error: string | null
 }
 
 class ProfileContainer extends React.Component<any, ProfileType> {
@@ -49,6 +50,7 @@ class ProfileContainer extends React.Component<any, ProfileType> {
                 savePhoto={this.props.savePhoto}
                 isLoading={this.props.isLoading}
                 updateProfile={this.props.updateProfile}
+                error={this.props.error}
             />
         );
     };
@@ -61,6 +63,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         authorizedUserId: state.auth.data.id,
         isAuth: state.auth.isAuth,
         isLoading: state.profilePage.isLoading,
+        error: state.app.error,
     }
 }
 
