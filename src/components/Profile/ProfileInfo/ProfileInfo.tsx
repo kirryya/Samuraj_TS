@@ -26,6 +26,10 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 
     const [editMode, setEditMode] = useState<boolean>(false)
 
+    const onclickHandler = () => {
+        setEditMode(true)
+    }
+
     if (!props.profile) {
         return <Preloader/>
     }
@@ -51,7 +55,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                             <div className={s.back}>Back to Users</div>
                         </NavLink>
                         : <div className={s.back}>
-                            <button onClick={() => setEditMode(true)}>Edit Profile</button>
+                            <button onClick={onclickHandler}>Edit Profile</button>
                         </div>
                     }
                     <div className={s.profile}>

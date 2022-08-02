@@ -4,7 +4,7 @@ import {profileAPI} from "../api/api";
 import {PhotosType, ProfileType} from "../components/Profile/Profile";
 import {handleServerNetworkError} from "../components/common/Error-utils/error-utils";
 import {SetErrorAT} from "./auth-reducer";
-import {setErrorAC} from "./app-reducer";
+import {setErrorAC} from "./auth-reducer";
 
 let initialState = {
     posts: [
