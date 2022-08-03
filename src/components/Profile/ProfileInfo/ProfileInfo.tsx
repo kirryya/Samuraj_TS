@@ -30,6 +30,10 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
         setEditMode(true)
     }
 
+    const onChangeHandler = () => {
+        setEditMode(false)
+    }
+
     if (!props.profile) {
         return <Preloader/>
     }
@@ -67,9 +71,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                         <div>{editMode
                             ? <ProfileDataForm
                                 updateProfile={props.updateProfile}
-                                onChange={() => {
-                                    setEditMode(false)
-                                }}
+                                onChange={onChangeHandler}
                                 profile={props.profile}
                             />
                             : <ProfileData profile={props.profile}

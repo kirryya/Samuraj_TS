@@ -45,8 +45,8 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                 mainLink: props.profile.contacts.mainLink ? props.profile.contacts.mainLink : "",
             }
         },
-        onSubmit: values => {
-            props.updateProfile(values)
+        onSubmit: async values => {
+            await props.updateProfile(values)
             props.onChange()
         },
     })
@@ -89,15 +89,13 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                 </div>
                 <div>
                     <b>Contact: </b> {Object.keys(props.profile.contacts).map(key => {
-                    return <div>
+                    return <div key={key}>
                         <label><b>{key}: </b></label>
                         <input key={key}
                                id={key}
                                type={key}
                                placeholder={key}
                                {...formik.getFieldProps(`contacts.${key}`)}
-                               /*{formik.touched.key && formik.errors.password &&
-                                   <div style={{color: "red"}}>{formik.errors.password}</div>}*/
                         />
                     </div>
                 })

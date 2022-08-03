@@ -124,6 +124,7 @@ export const updateProfile = (profile: ProfileType) => async (dispatch: any, get
             dispatch(getUserProfile(userId))
         } else {
             dispatch(setErrorAC(response.data.messages[0]))
+            return Promise.reject(response.data.messages[0])
         }
     } catch (error) {
         if (error instanceof Error) {
