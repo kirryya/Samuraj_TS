@@ -11,18 +11,21 @@ type FormikErrorType = {
     email?: string
     password?: string
     rememberMe?: boolean
+    captcha?: string
 }
 
 export const Login = () => {
 
     const dispatch = useDispatch()
     const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
+    const captchaUrl = useSelector<AppStateType, string | null>(state => state.auth.captcha)
 
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
+            captcha: '',
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -85,9 +88,25 @@ export const Login = () => {
                                                   {...formik.getFieldProps('rememberMe')}
                                               />}
                             />
-                            <Button type={'submit'} variant={'contained'} color={'primary'} style={{marginBottom: "20px"}}>
+                            <Button type={'submit'} variant={'contained'} color={'primary'}
+                                    style={{marginBottom: "20px"}}>
                                 Login
                             </Button>
+                            {
+                                captchaUrl &&
+                                <div>
+                                    <div>
+                                        <img src={captchaUrl} alt='Captcha'/>
+                                    </div>
+                                    <div>
+                                        <TextField type="text"
+                                                   label="Symbols from image"
+                                                   margin="normal"
+                                                   {...formik.getFieldProps('captcha')}
+                                        />
+                                    </div>
+                                </div>
+                            }
                         </FormGroup>
                     </form>
                 </Grid>

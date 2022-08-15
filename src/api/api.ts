@@ -5,7 +5,7 @@ const instance = axios.create({
     withCredentials: true,
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
     headers: {
-        "API-KEY": "1abd1a35-16de-4573-8ef8-3e38ce7a3356"
+        "API-KEY": "c351c090-ba85-40b0-b03b-a2b4e75fffe5"
     }
 })
 
@@ -61,6 +61,12 @@ export const profileAPI = {
     updateProfile(profile: ProfileType) {
         return instance.put(`profile`, profile)
     }
+}
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get(`security/get-captcha-url`)
+    },
 }
 
 //types
