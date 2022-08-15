@@ -104,7 +104,8 @@ export const logoutTC = () => async (dispatch: Dispatch<ActionAT>) => {
             dispatch(setAuthUserData({
                 id: null,
                 email: null,
-                login: null
+                login: null,
+                captcha: null,
             }))
             dispatch(setIsLoggedInAC(false))
         } else {
@@ -137,7 +138,8 @@ export type ActionAT = ReturnType<typeof setIsLoggedInAC>
 export type DataType = {
     id: number | null,
     email: string | null,
-    login: string | null
+    login: string | null,
+    captcha: string | null
 }
 export type AuthType = {
     resultCode: number
