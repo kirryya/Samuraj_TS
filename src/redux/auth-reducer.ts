@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {authAPI, LoginParamsType} from '../api/api';
+import {authAPI, LoginParamsType, securityAPI} from '../api/api';
 import {handleServerAppError, handleServerNetworkError} from '../components/common/Error-utils/error-utils';
 
 let initialState = {
@@ -9,7 +9,8 @@ let initialState = {
         login: null
     },
     isAuth: false,
-    error: null
+    error: null,
+    captcha: null,
 }
 
 const authReducer = (state: InitialStateType = initialState, action: ActionAT): InitialStateType => {
@@ -20,6 +21,8 @@ const authReducer = (state: InitialStateType = initialState, action: ActionAT): 
             return {...state, isAuth: action.value}
         case 'AUTH/SET_ERROR':
             return {...state, error: action.error}
+        case "AUTH/GET_CAPTCHA_URL_SUCCESS":
+            return {...state, captcha: action.captcha}
         default:
             return state
     }
@@ -30,6 +33,12 @@ export const setAuthUserData = (data: DataType) => ({
     type: 'AUTH/SET_USER_DATA',
     data
 } as const)
+
+export const getCaptchaUrlSuccess = (captcha: string | null) => ({
+    type: 'AUTH/GET_CAPTCHA_URL_SUCCESS',
+    captcha
+} as const)
+
 export const setIsLoggedInAC = (value: boolean) => ({
     type: 'AUTH/SET_IS_LOGGED_IN',
     value
@@ -61,6 +70,24 @@ export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch<Acti
         if (res.data.resultCode === 0) {
             dispatch(getAuthUserData())
         } else {
+            if(res.data.resultCode === 10) {
+                dispatch(getCaptchaUrl())
+            }
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            handleServerNetworkError(error, dispatch)
+        }
+    }
+}
+
+export const getCaptchaUrl = () => async (dispatch: Dispatch<ActionAT | any>) => {
+    try {
+        let res = await securityAPI.getCaptchaUrl()
+        if (res.data.url) {
+            dispatch(getCaptchaUrlSuccess(res.data.url))
+        } else {
             handleServerAppError(res.data, dispatch)
         }
     } catch (error) {
@@ -77,7 +104,8 @@ export const logoutTC = () => async (dispatch: Dispatch<ActionAT>) => {
             dispatch(setAuthUserData({
                 id: null,
                 email: null,
-                login: null
+                login: null,
+                captcha: null,
             }))
             dispatch(setIsLoggedInAC(false))
         } else {
@@ -99,17 +127,19 @@ export type InitialStateType = {
     },
     isAuth: boolean,
     error: null | string
-
+    captcha: null | string
 }
 export type SetErrorAT = ReturnType<typeof setErrorAC>
 export type ActionAT = ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setAuthUserData>
+    | ReturnType<typeof getCaptchaUrlSuccess>
     | SetErrorAT
 
 export type DataType = {
     id: number | null,
     email: string | null,
-    login: string | null
+    login: string | null,
+    captcha: string | null
 }
 export type AuthType = {
     resultCode: number

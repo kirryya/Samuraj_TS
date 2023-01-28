@@ -35,14 +35,14 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             fullName: props.profile.fullName,
             lookingForAJobDescription: props.profile.lookingForAJobDescription,
             contacts: {
-                facebook: props.profile.contacts.facebook ? props.profile.contacts.facebook : "",
-                website: props.profile.contacts.website ? props.profile.contacts.website : "",
-                vk: props.profile.contacts.vk ? props.profile.contacts.vk : "",
-                twitter: props.profile.contacts.twitter ? props.profile.contacts.twitter : "",
-                instagram: props.profile.contacts.instagram ? props.profile.contacts.instagram : "",
-                youtube: props.profile.contacts.youtube ? props.profile.contacts.youtube : "",
-                github: props.profile.contacts.github ? props.profile.contacts.github : "",
-                mainLink: props.profile.contacts.mainLink ? props.profile.contacts.mainLink : "",
+                facebook: props.profile.contacts.facebook,
+                website: props.profile.contacts.website,
+                vk: props.profile.contacts.vk,
+                twitter: props.profile.contacts.twitter,
+                instagram: props.profile.contacts.instagram,
+                youtube: props.profile.contacts.youtube,
+                github: props.profile.contacts.github,
+                mainLink: props.profile.contacts.mainLink,
             }
         },
         onSubmit: async values => {
