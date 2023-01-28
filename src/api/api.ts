@@ -1,13 +1,6 @@
-import axios, {AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import {ProfileType} from "../components/Profile/Profile";
-
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: "https://social-network.samuraijs.com/api/1.0/",
-    headers: {
-        "API-KEY": "1abd1a35-16de-4573-8ef8-3e38ce7a3356"
-    }
-})
+import {instance} from "./instance";
 
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
@@ -47,7 +40,7 @@ export const profileAPI = {
             .then(response => response.data);
     },
     updateStatus(status: string) {
-        return instance.put(`profile/status/`, {status: status})
+        return instance.put(`profile/status/`, { status })
     },
     savePhoto(photo: string) {
         const formData = new FormData()
