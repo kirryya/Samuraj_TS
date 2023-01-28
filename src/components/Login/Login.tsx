@@ -1,7 +1,15 @@
 import React from 'react';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Checkbox, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
+import {
+    Button,
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    FormLabel,
+    Grid,
+    TextField
+} from "@mui/material";
 import {loginTC} from "../../redux/auth-reducer";
 import {Navigate} from 'react-router-dom';
 import {AppStateType} from "../../redux/redux-store";
@@ -56,7 +64,7 @@ export const Login = () => {
                         <FormLabel>
                             <p>To log in get registered
                                 <a href={'https://social-network.samuraijs.com/'}
-                                   target={'_blank'}> here
+                                   rel="noopener"> here
                                 </a>
                             </p>
                             <p>or use common test account credentials:</p>
